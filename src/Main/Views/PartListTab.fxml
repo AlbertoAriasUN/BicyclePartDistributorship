@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="320.0" prefWidth="438.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.PartListTabContentController">
+    <children>
+        <TableView fx:id="partListTable" layoutY="52.0" prefHeight="269.0" prefWidth="438.0">
+            <columns>
+                <TableColumn prefWidth="67.0" text="ID">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="partNumber" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="67.0" text="Name">
+                    <cellValueFactory>
+                        <PropertyValueFactory property="partName" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="63.0" text="List Price">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="listPrice" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="66.0" text="Sale Price">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="salePrice" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="71.0" text="On Sale?">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="isOnSale" />
+                    </cellValueFactory>
+                </TableColumn>
+                <TableColumn prefWidth="103.0" text="Quantity">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="quantity" />
+                    </cellValueFactory>
+                </TableColumn>
+            </columns>
+            <items>
+                <FXCollections fx:factory="observableArrayList">
+                    
+                </FXCollections>
+            </items>
+        </TableView>
+      <ComboBox fx:id="warehouseDropdown" layoutX="137.0" layoutY="14.0" onAction="#selectWarehouse" prefWidth="150.0" />
+    </children>
+</AnchorPane>
