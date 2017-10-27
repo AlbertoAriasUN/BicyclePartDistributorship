@@ -1,9 +1,12 @@
 package Main.Controllers;
 
-import BicyclePartDistributorshipAPI.DataLayer.PartWarehouse;
 import Main.APICaller;
 import java.io.File;
 import java.io.IOException;
+
+import BicyclePartDistributorshipAPI.DataLayer.Database;
+import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.BicyclePartListingFactory;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -14,7 +17,7 @@ import javafx.stage.FileChooser;
  * Controller for "Transfer Parts" tab pane
  * @author MAneiro
  */
-public class TransferPartsTabContentController {  
+public class TransferPartsTabContentController {
 
     /**
      * Text field for Sales van Name
@@ -30,7 +33,7 @@ public class TransferPartsTabContentController {
     @FXML
     private void addSalesvan(ActionEvent event) throws IOException {
         final String salesvanName = salesvanNameField.getText();
-        APICaller.getWarehouseController().addWarehouse(salesvanName, new PartWarehouse(salesvanName + ".txt"));
+        APICaller.getWarehouseController().addWarehouse(salesvanName, new Database<BicyclePartListing>(salesvanName + ".txt", new BicyclePartListingFactory()));
     }
 
     /**
@@ -49,7 +52,7 @@ public class TransferPartsTabContentController {
      * @param event FXML event object
      */
     @FXML
-    private void uploadTransferFile(ActionEvent event) {
+    private void uploadTransferFile(ActionEvent event) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         Node node = (Node) event.getSource();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Transfer File");

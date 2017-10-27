@@ -2,7 +2,6 @@ package Main.Controllers;
 
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
-import Main.FieldValidation;
 import Main.Models.DetailsTableRow;
 import java.io.IOException;
 import java.net.URL;
@@ -11,9 +10,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TableView.ResizeFeatures;
 import javafx.scene.control.TextField;
 
 /**
@@ -27,7 +24,7 @@ public class PartDetailsTabContentController extends FXMLFormController implemen
      */
     @FXML
     private TextField partNameField;
-    
+
     /**
      * Table for showing part details
      */
@@ -39,8 +36,7 @@ public class PartDetailsTabContentController extends FXMLFormController implemen
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        partDetailsTable.setColumnResizePolicy((ResizeFeatures p) -> true);
-    }   
+    }
 
     /**
      * Search for a part
@@ -57,7 +53,7 @@ public class PartDetailsTabContentController extends FXMLFormController implemen
                 rows.add(new DetailsTableRow("Part Name", listing.getPartName()));
                 rows.add(new DetailsTableRow("Cost", listing.getPrice()));
 
-                partDetailsTable.getItems().setAll(rows); 
+                partDetailsTable.getItems().setAll(rows);
             }
             catch(IOException e) {
                 System.out.println(e.getMessage());

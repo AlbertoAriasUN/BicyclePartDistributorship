@@ -1,6 +1,6 @@
 package Main.Controllers;
 
-import BicyclePartDistributorshipAPI.DataLayer.PartWarehouse;
+import BicyclePartDistributorshipAPI.DataLayer.Database;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
 import java.io.IOException;
@@ -25,7 +25,7 @@ public class PartListTabContentController implements Initializable {
      */
     @FXML
     private TableView<BicyclePartListing> partListTable;
-    
+
     /**
      * Combo box containing list of warehouses
      */
@@ -36,7 +36,7 @@ public class PartListTabContentController implements Initializable {
      * Initializes the controller class.
      */
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(URL url, ResourceBundle rb) {
     }
 
     /**
@@ -44,22 +44,22 @@ public class PartListTabContentController implements Initializable {
      */
     public void loadTabPane() {
         try {
-            ArrayList<BicyclePartListing> partListings = APICaller.getAPIController().getParts();  
+            ArrayList<BicyclePartListing> partListings = APICaller.getAPIController().getParts();
             partListTable.getItems().setAll(partListings);
-         
+
             //Add the names of all the warehouses to the dropdown
-            ArrayList<String> dropdownItems = new ArrayList();
+            ArrayList<String> dropdownItems = new ArrayList<>();
             dropdownItems.add("All Warehouses");
-            HashMap<String, PartWarehouse> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
+            HashMap<String, Database<BicyclePartListing>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
             warehouseMap.forEach((k,v) -> dropdownItems.add(k));
             warehouseDropdown.getItems().setAll(dropdownItems);
             warehouseDropdown.setValue(dropdownItems.get(0));
-            
+
         }
         catch(IOException e) {
             System.err.println(e.getMessage());
         }
-        
+
     }
 
     /**
@@ -71,14 +71,14 @@ public class PartListTabContentController implements Initializable {
     private void selectWarehouse(ActionEvent event) throws IOException {
         String selectedValue = warehouseDropdown.getValue();
         ArrayList<BicyclePartListing> partListings;
-        
+
         if(selectedValue.equals("All Warehouses")) {
             partListings = APICaller.getAPIController().getParts();
         }
         else {
             partListings = APICaller.getAPIController(selectedValue).getParts();
         }
-        
+
         partListTable.getItems().setAll(partListings);
     }
 }

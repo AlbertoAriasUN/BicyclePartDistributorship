@@ -1,6 +1,6 @@
 package Main.Controllers;
 
-import BicyclePartDistributorshipAPI.DataLayer.PartWarehouse;
+import BicyclePartDistributorshipAPI.DataLayer.Database;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
 import Main.FieldValidation;
@@ -31,19 +31,19 @@ public class SellPartTabContentController extends FXMLFormController implements 
      */
     @FXML
     private TextField partNumberField;
-    
+
     /**
      * Combo box for selecting warehouse
      */
     @FXML
     private ComboBox<String> warehouseDropdown;
-    
+
     /**
      * Table containing records of sales
      */
     @FXML
     private TableView<PartSaleTableRow> salesRecordTable;
-    
+
 
     /**
      * Initializes the controller class.
@@ -51,20 +51,20 @@ public class SellPartTabContentController extends FXMLFormController implements 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fieldValidations.add(new FieldValidation(partNumberField, FieldValidation.LONG));
-    }    
+    }
 
     /**
      * Event callback for updating information displayed on pane
      * @throws IOException Exception in reading file
      */
     public void loadTabPane() throws IOException {
-        ArrayList<String> dropdownItems = new ArrayList();
-        HashMap<String, PartWarehouse> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
+        ArrayList<String> dropdownItems = new ArrayList<>();
+        HashMap<String, Database<BicyclePartListing>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
         warehouseMap.forEach((k,v) -> dropdownItems.add(k));
         warehouseDropdown.getItems().setAll(dropdownItems);
         warehouseDropdown.setValue(dropdownItems.get(0));
     }
-    
+
     /**
      * Sell a part
      * @param event FXML event object
@@ -77,7 +77,7 @@ public class SellPartTabContentController extends FXMLFormController implements 
             Long partNumber = Long.parseLong(partNumberField.getText());
             BicyclePartListing part = APICaller.getAPIController(warehouse).getPart(partNumber);
             APICaller.getAPIController(warehouse).sellPart(partNumber);
-            
+
             //Get datetime of current time in American-ized format
             String timestamp = (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).format(Date.from(Instant.now()));
             PartSaleTableRow row = new PartSaleTableRow(warehouse, part.getPartName(), part.getPrice(), timestamp);
