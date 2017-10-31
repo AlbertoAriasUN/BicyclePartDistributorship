@@ -2,7 +2,7 @@ package Main;
 
 import BicyclePartDistributorshipAPI.Controllers.PartController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
-import BicyclePartDistributorshipAPI.DataLayer.Database;
+import Database.Database;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListingFactory;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 

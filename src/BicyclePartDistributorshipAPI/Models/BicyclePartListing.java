@@ -1,11 +1,12 @@
 package BicyclePartDistributorshipAPI.Models;
-import BicyclePartDistributorshipAPI.DataLayer.IDBModel;
+
+import Database.IDatabaseModel;
 
 /**
  * Model for a listing of a bicycle part in warehouse records
  * @author MAneiro
  */
-public class BicyclePartListing implements IDBModel {
+public class BicyclePartListing implements IDatabaseModel {
 
     /**
      * Part Name

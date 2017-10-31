@@ -1,4 +1,4 @@
-package BicyclePartDistributorshipAPI.DataLayer;
+package Database;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import BicyclePartDistributorshipAPI.Models.IDBModelFactory;
 
 /**
  * Database Generic
@@ -18,7 +17,7 @@ import BicyclePartDistributorshipAPI.Models.IDBModelFactory;
  *
  * @param <E> Model for database row
  */
-public class Database<E extends IDBModel> {
+public class Database<E extends IDatabaseModel> {
 
 	/**
 	 * Database values w/ primary key
@@ -30,12 +29,12 @@ public class Database<E extends IDBModel> {
 	 */
 	private final String dbFilename;
 
-	private final IDBModelFactory modelFactory;
+	private final IDatabaseModelFactory modelFactory;
 
 	/**
      * Constructs empty Database
      */
-    public Database(IDBModelFactory modelFactory) {
+    public Database(IDatabaseModelFactory modelFactory) {
         this.dbFilename = null;
         this.modelFactory = modelFactory;
         values = new HashMap<>();
@@ -46,7 +45,7 @@ public class Database<E extends IDBModel> {
      * @param dbFilename Path to DB file
      * @throws IOException
      */
-    public Database(String dbFilename, IDBModelFactory modelFactory) throws IOException {
+    public Database(String dbFilename, IDatabaseModelFactory modelFactory) throws IOException {
         this.dbFilename = dbFilename;
         this.modelFactory = modelFactory;
         values = readDB();

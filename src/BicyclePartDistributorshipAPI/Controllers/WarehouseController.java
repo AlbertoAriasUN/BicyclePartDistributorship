@@ -1,6 +1,6 @@
 package BicyclePartDistributorshipAPI.Controllers;
 
-import BicyclePartDistributorshipAPI.DataLayer.Database;
+import Database.Database;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListingFactory;
 
