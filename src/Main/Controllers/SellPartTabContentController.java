@@ -1,7 +1,8 @@
 package Main.Controllers;
 
 import Database.Database;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
+import BicyclePartDistributorshipAPI.Models.Inventory;
 import Main.APICaller;
 import Main.FieldValidation;
 import Main.Models.PartSaleTableRow;
@@ -59,7 +60,7 @@ public class SellPartTabContentController extends FXMLFormController implements 
      */
     public void loadTabPane() throws IOException {
         ArrayList<String> dropdownItems = new ArrayList<>();
-        HashMap<String, Database<BicyclePartListing>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
+        HashMap<String, Database<Inventory>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
         warehouseMap.forEach((k,v) -> dropdownItems.add(k));
         warehouseDropdown.getItems().setAll(dropdownItems);
         warehouseDropdown.setValue(dropdownItems.get(0));
@@ -75,7 +76,7 @@ public class SellPartTabContentController extends FXMLFormController implements 
         if(validForm()) {
             String warehouse = warehouseDropdown.getValue();
             Long partNumber = Long.parseLong(partNumberField.getText());
-            BicyclePartListing part = APICaller.getPartController(warehouse).getPart(partNumber);
+            BicyclePart part = APICaller.getPartController(warehouse).getPart(partNumber).getBicyclePart();
             APICaller.getPartController(warehouse).sellPart(partNumber);
 
             //Get datetime of current time in American-ized format

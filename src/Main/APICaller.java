@@ -3,7 +3,7 @@ package Main;
 import BicyclePartDistributorshipAPI.Controllers.PartController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import Database.Database;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.Inventory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class APICaller {
      */
     public static ArrayList<PartController> getAllPartControllers() throws IOException {
     	ArrayList<PartController> partControllers = new ArrayList<>();
-    	HashMap<String, Database<BicyclePartListing>> warehouses = new WarehouseController().getWarehouseMap();
+    	HashMap<String, Database<Inventory>> warehouses = new WarehouseController().getWarehouseMap();
     	for(String key : warehouses.keySet()) {
     		partControllers.add(new WarehouseController().getPartController(key));
     	}

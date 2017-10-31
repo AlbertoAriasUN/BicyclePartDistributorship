@@ -19,6 +19,11 @@ public class DatabaseListModel implements IDatabaseModel{
 	}
 
 	@Override
+	public String toString() {
+		return databaseFilePath;
+	}
+
+	@Override
 	public Object getPrimaryKey() {
 		return databaseFilePath;
 	}

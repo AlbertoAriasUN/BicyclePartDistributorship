@@ -3,8 +3,10 @@ package BicyclePartDistributorshipAPI.DataLayer;
 import Database.Database;
 import Database.DatabaseListModel;
 import Database.DatabaseListModelFactory;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListingFactory;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
+import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
+import BicyclePartDistributorshipAPI.Models.Inventory;
+import BicyclePartDistributorshipAPI.Models.InventoryFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +16,10 @@ import java.util.stream.Collectors;
 public class DatabaseConnection {
 	private final String WAREHOUSE_LIST_DB_FILENAME = "warehouses.txt";
 	private Database<DatabaseListModel> warehouseList;
-	private HashMap<String, Database<BicyclePartListing>> warehouses;
+	private HashMap<String, Database<Inventory>> warehouses;
+
+	private final String BICYCLE_PARTS_DB_FILENAME = "bikeParts.txt";
+	private Database<BicyclePart> bicycleParts;
 
 	public DatabaseConnection() throws IOException {
 		warehouseList = new Database<DatabaseListModel>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
@@ -23,19 +28,25 @@ public class DatabaseConnection {
 																 .stream().map(s -> s.getDatabaseFilePath())
 																 .collect(Collectors.toList());
 		for(String filename : WAREHOUSE_DB_FILENAMES) {
-			warehouses.put(filename.split("\\.")[0], new Database<BicyclePartListing>(filename, new BicyclePartListingFactory()));
+			warehouses.put(filename.split("\\.")[0], new Database<Inventory>(filename, new InventoryFactory()));
 		}
+
+		bicycleParts = new Database<BicyclePart>(BICYCLE_PARTS_DB_FILENAME, new BicyclePartFactory());
 	}
 
 	public Database<DatabaseListModel> getWarehouseListDB() {
 		return warehouseList;
 	}
 
-	public HashMap<String, Database<BicyclePartListing>> getWarehouses() {
+	public HashMap<String, Database<Inventory>> getWarehouses() {
 		return warehouses;
 	}
 
-	public Database<BicyclePartListing> getWarehouse(String name) {
+	public Database<Inventory> getWarehouseDB(String name) {
 		return warehouses.get(name);
+	}
+
+	public Database<BicyclePart> getBicyclePartsDB() {
+		return bicycleParts;
 	}
 }

@@ -6,7 +6,7 @@ import Database.IDatabaseModel;
  * Model for a listing of a bicycle part in warehouse records
  * @author MAneiro
  */
-public class BicyclePartListing implements IDatabaseModel {
+public class BicyclePart implements IDatabaseModel {
 
     /**
      * Part Name
@@ -34,20 +34,14 @@ public class BicyclePartListing implements IDatabaseModel {
     private boolean isOnSale;
 
     /**
-     * Amount of this part in warehouse
-     */
-    private int quantity;
-
-    /**
      * Constructs a new listing
      */
-    public BicyclePartListing() {
+    public BicyclePart() {
         this.partName = "";
         this.partNumber = 0;
         this.listPrice = 0.0;
         this.salePrice = 0.0;
         this.isOnSale = false;
-        this.quantity = 0;
     }
 
     /**
@@ -59,30 +53,13 @@ public class BicyclePartListing implements IDatabaseModel {
      * @param isOnSale Is the Part on sale?
      * @param quantity Amount of Part in warehouse
      */
-    public BicyclePartListing(String partName, long partNumber, double listPrice,
-                              double salePrice, boolean isOnSale, int quantity) {
+    public BicyclePart(String partName, long partNumber, double listPrice,
+                              double salePrice, boolean isOnSale) {
         this.partName = partName;
         this.partNumber = partNumber;
         this.listPrice = listPrice;
         this.salePrice = salePrice;
         this.isOnSale = isOnSale;
-        this.quantity = quantity;
-    }
-
-    /**
-     * Constructs new listing using CSV string
-     * @param csv CSV String of Part fields in order
-     */
-    public BicyclePartListing(String csv){
-        String[] tokens = csv.split(",");
-        if(tokens.length == 6) {
-            this.partName = tokens[0];
-            this.partNumber = Integer.parseInt(tokens[1]);
-            this.listPrice = Double.parseDouble(tokens[2]);
-            this.salePrice = Double.parseDouble(tokens[3]);
-            this.isOnSale = Boolean.parseBoolean(tokens[4]);
-            this.quantity = Integer.parseInt(tokens[5]);
-        }
     }
 
     /**
@@ -116,12 +93,6 @@ public class BicyclePartListing implements IDatabaseModel {
     public boolean getIsOnSale() {return isOnSale;}
 
     /**
-     * Gets quantity of part
-     * @return quantity of part
-     */
-    public int getQuantity() {return quantity;}
-
-    /**
      * Sets part name
      * @param name Name of part
      */
@@ -152,12 +123,6 @@ public class BicyclePartListing implements IDatabaseModel {
     public void setIsOnSale(boolean isOnSale) {this.isOnSale = isOnSale;}
 
     /**
-     * Sets quantity of part
-     * @param quantity quantity of part
-     */
-    public void setQuantity(int quantity) {this.quantity = quantity;}
-
-    /**
      * Gets price of price checking if it is on sale
      * @return actual price of part
      */
@@ -171,7 +136,7 @@ public class BicyclePartListing implements IDatabaseModel {
     public String toString() {
         String output = getPartName() + "," + getPartNumber() + "," +
                         getListPrice() + "," + getSalePrice() + "," +
-                        getIsOnSale() + "," + getQuantity();
+                        getIsOnSale();
         return output;
     }
 

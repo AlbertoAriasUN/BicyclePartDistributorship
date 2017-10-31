@@ -2,8 +2,11 @@ package Main.Controllers;
 
 import Database.Database;
 import BicyclePartDistributorshipAPI.Controllers.PartController;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
+import BicyclePartDistributorshipAPI.Models.Inventory;
 import Main.APICaller;
+import Tools.BicyclePartTuple;
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,7 +28,7 @@ public class PartListTabContentController implements Initializable {
      * Table containing list of parts in selected warehouse
      */
     @FXML
-    private TableView<BicyclePartListing> partListTable;
+    private TableView<BicyclePart> partListTable;
 
     /**
      * Combo box containing list of warehouses
@@ -40,22 +43,35 @@ public class PartListTabContentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
     }
 
+    public class PartWithQuantity extends BicyclePart {
+    	private int quantity;
+    	public PartWithQuantity(BicyclePart part, Integer quantity) {
+    		super(part.getPartName(), part.getPartNumber(), part.getListPrice(),
+    			  part.getSalePrice(), part.getIsOnSale());
+    		this.quantity = quantity;
+    	}
+
+    	public int getQuantity() {
+    		return quantity;
+    	}
+    }
+
     /**
      * Event callback for updating information in pane
      */
     public void loadTabPane() {
         try {
         	ArrayList<PartController> partControllers = APICaller.getAllPartControllers();
-        	ArrayList<BicyclePartListing> partListings = new ArrayList<>();
+        	ArrayList<BicyclePartTuple> partListings = new ArrayList<>();
         	for(PartController partController : partControllers) {
         		partListings.addAll(partController.getParts());
         	}
-            partListTable.getItems().setAll(partListings);
+            partListTable.getItems().setAll((BicyclePart[]) partListings.toArray());
 
             //Add the names of all the warehouses to the dropdown
             ArrayList<String> dropdownItems = new ArrayList<>();
             dropdownItems.add("All Warehouses");
-            HashMap<String, Database<BicyclePartListing>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
+            HashMap<String, Database<Inventory>> warehouseMap = APICaller.getWarehouseController().getWarehouseMap();
             warehouseMap.forEach((k,v) -> dropdownItems.add(k));
             warehouseDropdown.getItems().setAll(dropdownItems);
             warehouseDropdown.setValue(dropdownItems.get(0));
@@ -75,11 +91,10 @@ public class PartListTabContentController implements Initializable {
     @FXML
     private void selectWarehouse(ActionEvent event) throws IOException {
         String selectedValue = warehouseDropdown.getValue();
-        ArrayList<BicyclePartListing> partListings;
+        ArrayList<BicyclePartTuple> partListings = new ArrayList<>();
 
         if(selectedValue.equals("All Warehouses")) {
         	ArrayList<PartController> partControllers = APICaller.getAllPartControllers();
-        	partListings = new ArrayList<>();
         	for(PartController partController : partControllers) {
         		partListings.addAll(partController.getParts());
         	}
@@ -88,6 +103,6 @@ public class PartListTabContentController implements Initializable {
             partListings = APICaller.getPartController(selectedValue).getParts();
         }
 
-        partListTable.getItems().setAll(partListings);
+        partListTable.getItems().setAll((BicyclePart[]) partListings.toArray());
     }
 }

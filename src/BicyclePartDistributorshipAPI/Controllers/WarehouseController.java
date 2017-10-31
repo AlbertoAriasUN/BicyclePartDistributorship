@@ -3,7 +3,7 @@ package BicyclePartDistributorshipAPI.Controllers;
 import Database.Database;
 import Database.DatabaseListModel;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.Inventory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -45,7 +45,7 @@ public class WarehouseController {
      * Gets HashMap<> of warehouses
      * @return
      */
-    public HashMap<String, Database<BicyclePartListing>> getWarehouseMap() {
+    public HashMap<String, Database<Inventory>> getWarehouseMap() {
         return dbConnection.getWarehouses();
     }
 
@@ -55,7 +55,7 @@ public class WarehouseController {
      * @return controller for warehouse
      */
     public PartController getPartController(String warehouseName) {
-        final PartController controller = new PartController(dbConnection.getWarehouse(warehouseName));
+        final PartController controller = new PartController(dbConnection.getWarehouseDB(warehouseName), dbConnection.getBicyclePartsDB());
         return controller;
     }
 

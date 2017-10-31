@@ -1,7 +1,7 @@
 package Main.Controllers;
 
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import Main.APICaller;
 import Main.Models.DetailsTableRow;
 import java.io.IOException;
@@ -42,13 +42,14 @@ public class PartDetailsTabContentController extends FXMLFormController implemen
     /**
      * Search for a part
      * @param event FXML event object
+     * @throws Exception
      */
     @FXML
-    private void partSearch_Click(ActionEvent event) {
+    private void partSearch_Click(ActionEvent event) throws Exception {
         if(validForm()) {
             try {
                 String partName = partNameField.getText();
-                BicyclePartListing listing = APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).getPart(partName);
+                BicyclePart listing = APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).getPart(partName).getBicyclePart();
 
                 ArrayList<DetailsTableRow> rows = new ArrayList<>(2);
                 rows.add(new DetailsTableRow("Part Name", listing.getPartName()));

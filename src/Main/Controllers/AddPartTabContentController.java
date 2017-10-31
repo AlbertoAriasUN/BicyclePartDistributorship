@@ -1,7 +1,7 @@
 package Main.Controllers;
 
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import Main.APICaller;
 import Main.FieldValidation;
 import java.io.File;
@@ -77,12 +77,11 @@ public class AddPartTabContentController extends FXMLFormController implements I
             long partNumber = Long.parseLong(partNumberField.getText());
             double partListPrice = Double.parseDouble(partListPriceField.getText());
             double partSalePrice = Double.parseDouble(partSalePriceField.getText());
-            int partQuantity = Integer.parseInt(partQuantityField.getText());
             boolean isOnSale = partOnSaleCheckbox.isSelected();
 
             try {
-                BicyclePartListing listing =
-                    new BicyclePartListing(partName, partNumber, partListPrice, partSalePrice, isOnSale, partQuantity);
+                BicyclePart listing =
+                    new BicyclePart(partName, partNumber, partListPrice, partSalePrice, isOnSale);
                 APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).addPart(listing);
             }
             catch(IOException e) {
