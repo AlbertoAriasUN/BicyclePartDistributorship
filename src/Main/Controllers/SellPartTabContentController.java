@@ -75,8 +75,8 @@ public class SellPartTabContentController extends FXMLFormController implements 
         if(validForm()) {
             String warehouse = warehouseDropdown.getValue();
             Long partNumber = Long.parseLong(partNumberField.getText());
-            BicyclePartListing part = APICaller.getAPIController(warehouse).getPart(partNumber);
-            APICaller.getAPIController(warehouse).sellPart(partNumber);
+            BicyclePartListing part = APICaller.getPartController(warehouse).getPart(partNumber);
+            APICaller.getPartController(warehouse).sellPart(partNumber);
 
             //Get datetime of current time in American-ized format
             String timestamp = (new SimpleDateFormat("dd/MM/yyyy HH:mm:ss")).format(Date.from(Instant.now()));

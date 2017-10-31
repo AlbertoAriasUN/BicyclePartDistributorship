@@ -1,6 +1,7 @@
 package Main.Controllers;
 
 import Database.Database;
+import BicyclePartDistributorshipAPI.Controllers.PartController;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
 import java.io.IOException;
@@ -44,7 +45,11 @@ public class PartListTabContentController implements Initializable {
      */
     public void loadTabPane() {
         try {
-            ArrayList<BicyclePartListing> partListings = APICaller.getAPIController().getParts();
+        	ArrayList<PartController> partControllers = APICaller.getAllPartControllers();
+        	ArrayList<BicyclePartListing> partListings = new ArrayList<>();
+        	for(PartController partController : partControllers) {
+        		partListings.addAll(partController.getParts());
+        	}
             partListTable.getItems().setAll(partListings);
 
             //Add the names of all the warehouses to the dropdown
@@ -73,10 +78,14 @@ public class PartListTabContentController implements Initializable {
         ArrayList<BicyclePartListing> partListings;
 
         if(selectedValue.equals("All Warehouses")) {
-            partListings = APICaller.getAPIController().getParts();
+        	ArrayList<PartController> partControllers = APICaller.getAllPartControllers();
+        	partListings = new ArrayList<>();
+        	for(PartController partController : partControllers) {
+        		partListings.addAll(partController.getParts());
+        	}
         }
         else {
-            partListings = APICaller.getAPIController(selectedValue).getParts();
+            partListings = APICaller.getPartController(selectedValue).getParts();
         }
 
         partListTable.getItems().setAll(partListings);

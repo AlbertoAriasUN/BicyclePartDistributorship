@@ -1,16 +1,11 @@
 package BicyclePartDistributorshipAPI.Controllers;
 
 import Database.Database;
+import Database.DatabaseListModel;
+import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
-import BicyclePartDistributorshipAPI.Models.BicyclePartListingFactory;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
 /**
@@ -19,32 +14,12 @@ import java.util.HashMap;
  */
 public class WarehouseController {
 
-	/**
-     * Hash table of warehouses
-     */
-    private HashMap<String, Database<BicyclePartListing>> warehouses;
+	public static final String MAIN_WAREHOUSE_NAME = "mainwh.txt";
 
-    /**
-     * File containing locations of DB files for all existing warehouses
-     */
-    private final String WAREHOUSEDB_FILENAME = "warehouses.txt";
+	private DatabaseConnection dbConnection;
 
-    /**
-     * Constructs Warehouse using 'warehouses' file
-     */
-    public WarehouseController() {
-        BufferedReader reader = null;
-        warehouses = new HashMap<>();
-        try {
-            reader = new BufferedReader(new FileReader(WAREHOUSEDB_FILENAME));
-            String line;
-            while((line = reader.readLine()) != null) {
-                warehouses.put(line.split("\\.")[0], new Database<BicyclePartListing>(line, new BicyclePartListingFactory()));
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-            warehouses = new HashMap<>();
-        }
+    public WarehouseController() throws IOException {
+    	dbConnection = new DatabaseConnection();
     }
 
     /**
@@ -53,9 +28,8 @@ public class WarehouseController {
      * @param warehouse warehouse to be added
      * @throws IOException Exception in writing file
      */
-    public void addWarehouse(String name, Database<BicyclePartListing> warehouse) throws IOException {
-        warehouses.put(name, warehouse);
-        writeAll();
+    public void addWarehouse(String filename) throws IOException {
+    	dbConnection.getWarehouseListDB().addValue(new DatabaseListModel(filename));
     }
 
     /**
@@ -64,8 +38,7 @@ public class WarehouseController {
      * @throws IOException Exception in writing file
      */
     public void removeWarehouse(String name) throws IOException {
-        warehouses.remove(name);
-        writeAll();
+    	dbConnection.getWarehouseListDB().remove(name);
     }
 
     /**
@@ -73,7 +46,7 @@ public class WarehouseController {
      * @return
      */
     public HashMap<String, Database<BicyclePartListing>> getWarehouseMap() {
-        return warehouses;
+        return dbConnection.getWarehouses();
     }
 
     /**
@@ -82,27 +55,7 @@ public class WarehouseController {
      * @return controller for warehouse
      */
     public PartController getPartController(String warehouseName) {
-        final PartController controller = new PartController(warehouses.get(warehouseName));
-        return controller;
-    }
-
-    /**
-     * Creates a new warehouse of aggregate warehouses and returns a controller
-     * @return controller for aggregate warehouse
-     * @throws IOException Exception in reading file(s)
-     */
-    public PartController getPartController() throws IOException {
-        final String GLOBAL_DB_FILENAME = "globalDB.txt";
-        final Collection<Database<BicyclePartListing>> warehouseList = warehouses.values();
-
-        (new FileWriter(GLOBAL_DB_FILENAME)).close();
-        PartController global = new PartController(new Database<BicyclePartListing>(GLOBAL_DB_FILENAME, new BicyclePartListingFactory()));
-
-        for(Database<BicyclePartListing> warehouse : warehouseList) {
-            global.addPartsFromFile(warehouse.getDBFilename());
-        }
-
-        final PartController controller = new PartController(new Database<BicyclePartListing>(GLOBAL_DB_FILENAME, new BicyclePartListingFactory()));
+        final PartController controller = new PartController(dbConnection.getWarehouse(warehouseName));
         return controller;
     }
 
@@ -111,7 +64,7 @@ public class WarehouseController {
      * @param filename filename of transfer file
      * @throws IOException Exception in reading file
      */
-    public void transferParts(String filename) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+    /*public void transferParts(String filename) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
             String line = reader.readLine();
             Database<BicyclePartListing> fromWarehouse = warehouses.get(line.split(",")[0]);
@@ -137,18 +90,5 @@ public class WarehouseController {
                }
             }
         }
-    }
-
-    /**
-     * Write all warehouses to 'warehouse' file
-     * @throws IOException Exception in writing file
-     */
-    private void writeAll() throws IOException {
-        ArrayList<String> keys = new ArrayList<>(warehouses.keySet());
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(WAREHOUSEDB_FILENAME))) {
-            for(String key : keys) {
-                writer.write(key + ".txt\n");
-            }
-        }
-    }
+    }*/
 }

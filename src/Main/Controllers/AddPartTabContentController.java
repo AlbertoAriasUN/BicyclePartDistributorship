@@ -1,5 +1,6 @@
 package Main.Controllers;
 
+import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
 import Main.FieldValidation;
@@ -26,44 +27,44 @@ public class AddPartTabContentController extends FXMLFormController implements I
      */
     @FXML
     private TextField partNumberField;
-    
+
     /**
      * Text field for entering part name
      */
     @FXML
     private TextField partNameField;
-    
+
     /**
      * Text field for entering list price
      */
     @FXML
     private TextField partListPriceField;
-    
+
     /**
      * Text field for entering sale price
      */
     @FXML
     private TextField partSalePriceField;
-    
+
     /**
      * Text field for entering quantity
      */
     @FXML
     private TextField partQuantityField;
-    
+
     /**
      * Check box for selecting if part is on sale
      */
     @FXML
     private CheckBox partOnSaleCheckbox;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         fieldValidations.add(new FieldValidation(partNumberField, FieldValidation.LONG));
         fieldValidations.add(new FieldValidation(partListPriceField, FieldValidation.FLOATING_POINT));
         fieldValidations.add(new FieldValidation(partSalePriceField, FieldValidation.FLOATING_POINT));
         fieldValidations.add(new FieldValidation(partQuantityField, FieldValidation.INTEGER));
-    }    
+    }
 
     /**
      * Add a part through the FXML form input
@@ -78,20 +79,20 @@ public class AddPartTabContentController extends FXMLFormController implements I
             double partSalePrice = Double.parseDouble(partSalePriceField.getText());
             int partQuantity = Integer.parseInt(partQuantityField.getText());
             boolean isOnSale = partOnSaleCheckbox.isSelected();
-            
+
             try {
-                BicyclePartListing listing = 
+                BicyclePartListing listing =
                     new BicyclePartListing(partName, partNumber, partListPrice, partSalePrice, isOnSale, partQuantity);
-                APICaller.getAPIController(APICaller.MAIN_WAREHOUSE_NAME).addPart(listing);
+                APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).addPart(listing);
             }
             catch(IOException e) {
                 System.out.println(e.getMessage());
             }
-            
+
         }
-        
+
     }
-    
+
     /**
      * Add parts through uploading a file
      * @param event FMXL event object
@@ -104,7 +105,7 @@ public class AddPartTabContentController extends FXMLFormController implements I
         try {
             File file = fileChooser.showOpenDialog(node.getScene().getWindow());
             if(file != null) {
-                APICaller.getAPIController(APICaller.MAIN_WAREHOUSE_NAME).addPartsFromFile(file.getPath());
+                APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).addPartsFromFile(file.getPath());
             }
         }
         catch(IOException e) {

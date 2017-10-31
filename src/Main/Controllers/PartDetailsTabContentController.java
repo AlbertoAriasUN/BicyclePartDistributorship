@@ -1,5 +1,6 @@
 package Main.Controllers;
 
+import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import BicyclePartDistributorshipAPI.Models.BicyclePartListing;
 import Main.APICaller;
 import Main.Models.DetailsTableRow;
@@ -47,7 +48,7 @@ public class PartDetailsTabContentController extends FXMLFormController implemen
         if(validForm()) {
             try {
                 String partName = partNameField.getText();
-                BicyclePartListing listing = APICaller.getAPIController().getPart(partName);
+                BicyclePartListing listing = APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME).getPart(partName);
 
                 ArrayList<DetailsTableRow> rows = new ArrayList<>(2);
                 rows.add(new DetailsTableRow("Part Name", listing.getPartName()));

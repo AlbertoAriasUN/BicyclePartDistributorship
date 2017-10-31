@@ -62,9 +62,9 @@ public class PartController {
     		BicyclePartListing existingPart = partWarehouse.getValue(part.getPrimaryKey());
     		if(existingPart != null) {
     			part.setQuantity(part.getQuantity() + existingPart.getQuantity());
-    			partWarehouse.addValue(part);
+    			partWarehouse.setValue(part);
     		}
-    		else partWarehouse.setValue(part);
+    		else partWarehouse.addValue(part);
     	}
     }
 

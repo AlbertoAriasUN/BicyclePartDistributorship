@@ -87,6 +87,11 @@ public class Database<E extends IDatabaseModel> {
         setValue(value);
     }
 
+    public void remove(Object primaryKey) throws IOException {
+    	values.remove(primaryKey);
+    	writeAll();
+    }
+
     /**
      * Gets all rows
      * @return HashMap of all rows
