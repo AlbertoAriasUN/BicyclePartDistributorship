@@ -7,6 +7,8 @@ import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
 import BicyclePartDistributorshipAPI.Models.Inventory;
 import BicyclePartDistributorshipAPI.Models.InventoryFactory;
+import BicyclePartDistributorshipAPI.Models.User;
+import BicyclePartDistributorshipAPI.Models.UserFactory;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,12 +16,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class DatabaseConnection {
-	private final String WAREHOUSE_LIST_DB_FILENAME = "warehouses.txt";
+	private final String WAREHOUSE_LIST_DB_FILENAME = "Data\\warehouses.txt";
 	private Database<DatabaseListModel> warehouseList;
 	private HashMap<String, Database<Inventory>> warehouses;
 
-	private final String BICYCLE_PARTS_DB_FILENAME = "bikeParts.txt";
+	private final String BICYCLE_PARTS_DB_FILENAME = "Data\\bikeParts.txt";
 	private Database<BicyclePart> bicycleParts;
+
+	private final String USER_DB_FILENAME = "Data\\users.txt";
+	private Database<User> users;
 
 	public DatabaseConnection() throws IOException {
 		warehouseList = new Database<DatabaseListModel>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
@@ -32,6 +37,7 @@ public class DatabaseConnection {
 		}
 
 		bicycleParts = new Database<BicyclePart>(BICYCLE_PARTS_DB_FILENAME, new BicyclePartFactory());
+		users = new Database<User>(USER_DB_FILENAME, new UserFactory());
 	}
 
 	public Database<DatabaseListModel> getWarehouseListDB() {
@@ -48,5 +54,9 @@ public class DatabaseConnection {
 
 	public Database<BicyclePart> getBicyclePartsDB() {
 		return bicycleParts;
+	}
+
+	public Database<User> getUsers() {
+		return users;
 	}
 }

@@ -1,6 +1,7 @@
 package Main;
 
 import BicyclePartDistributorshipAPI.Controllers.PartController;
+import BicyclePartDistributorshipAPI.Controllers.UserController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import Database.Database;
 import BicyclePartDistributorshipAPI.Models.Inventory;
@@ -46,5 +47,9 @@ public class APICaller {
      */
     public static WarehouseController getWarehouseController() throws IOException {
         return (new WarehouseController());
+    }
+
+    public static UserController getUserController() throws IOException {
+    	return (new UserController());
     }
 }
