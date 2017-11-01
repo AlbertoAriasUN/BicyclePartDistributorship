@@ -1,0 +1,36 @@
+package BicyclePartDistributorshipAPI.Models;
+
+import BicyclePartDistributorshipAPI.Models.User.UserType;
+import Database.IDatabaseModelFactory;
+
+public class UserFactory implements IDatabaseModelFactory {
+
+	@Override
+	public Object create(String csv) {
+		String[] values = csv.split(",");
+		User user = new User();
+		user.setUsername(values[0]);
+		user.setPasswordHash(values[1]);
+		user.setPasswordSalt(values[2]);
+		user.setEmail(values[2]);
+		switch(values[3]) {
+			case "SYSADMIN":
+				user.setUserType(UserType.SYSADMIN);
+				break;
+			case "OFFICE_MANAGER":
+				user.setUserType(UserType.OFFICE_MANAGER);
+				break;
+			case "WAREHOUSE_MANAGER":
+				user.setUserType(UserType.WAREHOUSE_MANAGER);
+				break;
+			case "SALES_ASSOCIATE":
+				user.setUserType(UserType.SALES_ASSOCIATE);
+				break;
+			default:
+				user.setUserType(null);
+				break;
+		}
+		return user;
+	}
+
+}
