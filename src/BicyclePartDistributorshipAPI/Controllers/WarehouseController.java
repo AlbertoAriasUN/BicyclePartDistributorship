@@ -44,18 +44,20 @@ public class WarehouseController {
     /**
      * Gets HashMap<> of warehouses
      * @return
+     * @throws IOException 
      */
-    public HashMap<String, Database<Inventory>> getWarehouseMap() {
-        return dbConnection.getWarehouses();
+    public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
+        return dbConnection.getWarehouseMap();
     }
 
     /**
      * Gets controller for a specified warehouse
      * @param warehouseName name of warehouse
      * @return controller for warehouse
+     * @throws IOException 
      */
-    public PartController getPartController(String warehouseName) {
-        final PartController controller = new PartController(dbConnection.getWarehouseDB(warehouseName), dbConnection.getBicyclePartsDB());
+    public PartController getPartController(String warehouseName) throws IOException {
+        final PartController controller = new PartController(warehouseName);
         return controller;
     }
 

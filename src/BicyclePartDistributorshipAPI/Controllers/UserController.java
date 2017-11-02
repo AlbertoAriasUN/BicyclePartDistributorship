@@ -5,26 +5,26 @@ import java.util.Base64;
 
 import BicyclePartDistributorshipAPI.Models.User;
 import BicyclePartDistributorshipAPI.Models.User.UserType;
-import Database.Database;
 import Tools.Security;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 
 public class UserController {
-	private Database<User> users;
+	
+	private DatabaseConnection dbConnection;
 
 	public UserController() throws IOException {
-		this.users = (new DatabaseConnection().getUsers());
+		dbConnection = new DatabaseConnection();
 	}
 
 	/**
 	 * Checks password against password stored for user in the database
 	 * @param username Username of user to check
 	 * @param password Password to check against
-	 * @return User model of authenticated user if authentication sucessful, otherwise null
+	 * @return User model of authenticated user if authentication successful, otherwise null
 	 * @throws IOException Error in reading from database
 	 */
 	public User authenticateLogin(String username, String password) throws IOException {
-		User user = users.getValue(username);
+		User user = dbConnection.getUserDB().getValue(username);
 		if(user == null) {
 			return null;
 		}
@@ -56,6 +56,6 @@ public class UserController {
 		user.setPasswordHash(base64EncodedHash);
 		user.setPasswordSalt(base64EncodedSalt);
 
-		users.addValue(user);
+		dbConnection.getUserDB().addValue(user);
 	}
 }
