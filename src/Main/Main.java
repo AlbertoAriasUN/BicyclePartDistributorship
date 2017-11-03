@@ -1,6 +1,8 @@
 package Main;
 
 import java.io.IOException;
+
+import BicyclePartDistributorshipAPI.Models.User.UserType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -38,6 +40,7 @@ public class Main extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
+    	APICaller.getUserController().registerUser("maneiro", "password", "maneiro@mail.umw.edu", UserType.SYSADMIN);
     	launch(args);
     }
 

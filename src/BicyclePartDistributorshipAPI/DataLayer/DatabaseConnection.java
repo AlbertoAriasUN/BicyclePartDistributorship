@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 
 public class DatabaseConnection {
 	
-	private final String WAREHOUSE_LIST_DB_FILENAME = "Data\\warehouses.txt";
-	private final String BICYCLE_PARTS_DB_FILENAME = "Data\\bikeParts.txt";
-	private final String USER_DB_FILENAME = "Data\\users.txt";
+	private final String WAREHOUSE_LIST_DB_FILENAME = "Data/warehouses.txt";
+	private final String BICYCLE_PARTS_DB_FILENAME = "Data/bikeParts.txt";
+	private final String USER_DB_FILENAME = "Data/users.txt";
 
 	public DatabaseConnection() {
 	}

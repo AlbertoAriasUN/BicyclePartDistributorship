@@ -8,6 +8,7 @@ public class User implements IDatabaseModel {
 	 * Unique username
 	 */
 	private String username;
+	
 	/**
 	 * Password encrypted with password hash
 	 */
@@ -18,6 +19,10 @@ public class User implements IDatabaseModel {
 	 */
 	private String passwordSalt;
 
+	private String firstName;
+	
+	private String lastName;
+	
 	/**
 	 * Email address for user
 	 */
@@ -50,6 +55,14 @@ public class User implements IDatabaseModel {
 		this.userType = userType;
 	}
 
+	public String getFirstname() {
+		return firstName;
+	}
+	
+	public String getLastname() {
+		return lastName;
+	}
+	
 	public String getUsername() {
 		return username;
 	}
@@ -70,6 +83,14 @@ public class User implements IDatabaseModel {
 		return userType;
 	}
 
+	public void setFirstname(String firstName) {
+		this.firstName = firstName;
+	}
+	
+	public void setLastname(String lastName) {
+		this.lastName = lastName;
+	}
+	
 	public void setUsername(String username) {
 		this.username = username;
 	}
@@ -97,6 +118,7 @@ public class User implements IDatabaseModel {
 
 	@Override
 	public String toString() {
-		return username + "," + passwordHash + "," + passwordSalt + "," + email + "," + userType.toString();
+		return firstName + "," + lastName + "," + username + "," + passwordHash + "," + 
+			   passwordSalt + "," + email + "," + userType.toString();
 	}
 }

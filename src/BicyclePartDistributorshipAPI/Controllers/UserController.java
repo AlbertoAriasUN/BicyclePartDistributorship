@@ -38,8 +38,10 @@ public class UserController {
 		else return null;
 	}
 
-	public void registerUser(String username, String password, String email, UserType userType) throws IOException {
+	public void registerUser(String firstName, String lastName, String username, String password, String email, UserType userType) throws IOException {
 		User user = new User();
+		user.setFirstname(firstName);
+		user.setLastname(lastName);
 		user.setUsername(username);
 		user.setEmail(email);
 		user.setUserType(userType);
