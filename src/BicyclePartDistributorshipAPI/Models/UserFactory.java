@@ -12,8 +12,8 @@ public class UserFactory implements IDatabaseModelFactory {
 		user.setUsername(values[0]);
 		user.setPasswordHash(values[1]);
 		user.setPasswordSalt(values[2]);
-		user.setEmail(values[2]);
-		switch(values[3]) {
+		user.setEmail(values[3]);
+		switch(values[4]) {
 			case "SYSADMIN":
 				user.setUserType(UserType.SYSADMIN);
 				break;

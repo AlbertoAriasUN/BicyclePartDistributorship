@@ -2,7 +2,6 @@ package Main;
 
 import java.io.IOException;
 
-import BicyclePartDistributorshipAPI.Models.User.UserType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -17,8 +16,14 @@ public class Main extends Application {
 
 	private static Stage stage;
 
-	public static Stage getStage() {
-		return stage;
+	public static final String SYSADMIN_STAGE_URL = "Views/SysAdmin.fxml";
+	public static final String LOGIN_STAGE_URL = "Views/Login.fxml";
+	
+	public static void setStage(String stageUrl) throws IOException {
+		Parent root = FXMLLoader.load(Main.class.getResource(stageUrl));
+		Scene scene = new Scene(root);
+		stage.setScene(scene);
+		stage.show();
 	}
 
 	/**
@@ -28,10 +33,7 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Main.stage = stage;
-    	Parent root = FXMLLoader.load(getClass().getResource("Views/Login.fxml"));
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        setStage(LOGIN_STAGE_URL);
     }
 
     /**
@@ -40,7 +42,6 @@ public class Main extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-    	APICaller.getUserController().registerUser("maneiro", "password", "maneiro@mail.umw.edu", UserType.SYSADMIN);
     	launch(args);
     }
 

@@ -29,7 +29,6 @@ public class SysAdminController {
 
     @FXML
     private PasswordField passwordField;
-
     @FXML
     void registerUser(ActionEvent event) throws IOException {
     	String firstName = firstNameField.getText();
