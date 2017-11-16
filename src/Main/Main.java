@@ -10,13 +10,15 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 /**
- * Entery Point for Application/FXML
+ * Entry Point for Application/FXML
  * @author Matthew
  */
 public class Main extends Application {
 
 	private static Stage stage;
 
+	public static final String WAREHOUSE_MANAGER_STAGE_URL = "Views/WarehouseManager.fxml";
+	public static final String OFFICE_MANAGER_STAGE_URL = "Views/OfficeManager.fxml";
 	public static final String SYSADMIN_STAGE_URL = "Views/SysAdmin.fxml";
 	public static final String LOGIN_STAGE_URL = "Views/Login.fxml";
 	
@@ -43,7 +45,6 @@ public class Main extends Application {
      * @throws IOException
      */
     public static void main(String[] args) throws IOException {
-    	//APICaller.getUserController().registerUser("John", "Smith", "jsmith", "password", "jsmith@mail.umw.edu", UserType.OFFICE_MANAGER);
     	launch(args);
     }
 
