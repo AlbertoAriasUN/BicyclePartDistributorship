@@ -34,7 +34,7 @@ public class DatabaseConnection {
 																 		.stream().map(s -> s.getDatabaseFilePath())
 																 		.collect(Collectors.toList());
 		for(String filename : WAREHOUSE_DB_FILENAMES) {
-			warehouses.put(filename.split("\\.")[0], new Database<Inventory>(filename, new InventoryFactory()));
+			warehouses.put(filename, new Database<Inventory>(filename, new InventoryFactory()));
 		}
 		return warehouses;
 	}

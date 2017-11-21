@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +44,7 @@ public class Database<E extends IDatabaseModel> {
     /**
      * Constructs Database
      * @param dbFilename Path to DB file
+     * @param modelFactory
      * @throws IOException
      */
     public Database(String dbFilename, IDatabaseModelFactory modelFactory) throws IOException {
@@ -119,9 +121,11 @@ public class Database<E extends IDatabaseModel> {
         return values.get(key);
     }
 
-    public E getValueEquals(String name, Object value) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-    	for(E _value : getValuesList()) {
-    		if(_value.getClass().getField(name).get(_value).equals(value)) {
+    public E getValueEquals(String name, Object value) throws ClassNotFoundException, IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
+        for(E _value : getValuesList()) {
+            Field field = _value.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+    		if(field.get(_value).equals(value)) {
     			return _value;
     		}
     	}
