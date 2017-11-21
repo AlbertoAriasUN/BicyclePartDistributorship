@@ -29,7 +29,7 @@ public class SellPartTabContentController extends FXMLFormController implements 
 
     /**
      * Text field for entering part number
-     */
+     */ 
     @FXML
     private TextField partNumberField;
 

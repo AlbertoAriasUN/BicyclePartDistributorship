@@ -68,6 +68,7 @@ public class OfficeManagerController implements Initializable{
         char sign = dropDown.getValue().charAt(0);
         PartController controller = APICaller.getPartController(WarehouseController.MAIN_WAREHOUSE_NAME);
         ArrayList<BicyclePartTuple> bicycleTupleArray = controller.getParts();
+        displayPartArea.setText("");
         for(BicyclePartTuple t : bicycleTupleArray)
         {
             if(sign == '<' && t.getQuantity() < quant)
