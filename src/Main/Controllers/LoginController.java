@@ -44,10 +44,10 @@ public class LoginController {
 					Main.Main.setStage(Main.Main.SYSADMIN_STAGE_URL);
 					break;
 				case OFFICE_MANAGER:
-					//Main.Main.getStage().setScene(officeManagerScene);
+					Main.Main.setStage(Main.Main.OFFICE_MANAGER_STAGE_URL);
 					break;
 				case WAREHOUSE_MANAGER:
-					//Main.Main.getStage().setScene(warehouseManagerScene);
+					Main.Main.setStage(Main.Main.WAREHOUSE_MANAGER_STAGE_URL);
 					break;
 				case SALES_ASSOCIATE:
 					//Main.Main.getStage().setScene(salesAssociateScene);
