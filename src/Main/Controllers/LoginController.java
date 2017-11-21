@@ -36,6 +36,7 @@ public class LoginController {
 			System.out.println("Username/Password incorrect");
 		}
 
+
 		//TODO: Add .fxml pages for each user type
 		/*try {
 			Scene adminScene = new Scene(FXMLLoader.load(getClass().getResource("Views/SysAdmin.fxml")));
