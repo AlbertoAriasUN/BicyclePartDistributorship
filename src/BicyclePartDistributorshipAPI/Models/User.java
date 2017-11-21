@@ -34,7 +34,7 @@ public class User implements IDatabaseModel {
 	private UserType userType;
 
 	public enum UserType {
-		SYSADMIN, OFFICE_MANAGER, WAREHOUSE_MANAGER, SALES_ASSOCIATE
+		SYSADMIN, OFFICE_MANAGER, WAREHOUSE_MANAGER, SALES_ASSOCIATE;
 	}
 
 	/**

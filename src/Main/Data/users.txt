@@ -1,1 +1,3 @@
-maneiro,3DTAuQrrAA1lqVip8jAqxU53RyU9ZWZCHkqOPgcp7WUrubj0OE2NHRTBJtpBeHn7HecIbPM1ppfHlIRb1v+kPg==,kRBwIzowYLE=,maneiro@mail.umw.edu,SYSADMIN
+John,Smith,jsmith,xXV+kqgxETAAhmT/6CyKVkd1eimvcRr35ZIdPAUyoFCCzOG52Jb8bbbYys+hhzzN3FXnKjlxO07xIvYgS0shKA==,oNG80y+/vJc=,jsmith@mail.umw.edu,OFFICE_MANAGER
+Matthew,Aneiro,maneiro,3DTAuQrrAA1lqVip8jAqxU53RyU9ZWZCHkqOPgcp7WUrubj0OE2NHRTBJtpBeHn7HecIbPM1ppfHlIRb1v+kPg==,kRBwIzowYLE=,maneiro@mail.umw.edu,SYSADMIN
+Han,Solo,hsolo,zfxi+/1w58DH9xiEegYpY1iXDNZad0x2Z8gqZYd5cy8DRHM1t+OF+Bb557HGWOJkSvGxGfoEsIrZEZDSoa+zIw==,+QInYluxyts=,hsolo@mail.umw.edu,WAREHOUSE_MANAGER

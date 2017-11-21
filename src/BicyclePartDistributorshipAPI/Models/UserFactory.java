@@ -9,11 +9,13 @@ public class UserFactory implements IDatabaseModelFactory {
 	public Object create(String csv) {
 		String[] values = csv.split(",");
 		User user = new User();
-		user.setUsername(values[0]);
-		user.setPasswordHash(values[1]);
-		user.setPasswordSalt(values[2]);
-		user.setEmail(values[2]);
-		switch(values[3]) {
+		user.setFirstname(values[0]);
+		user.setLastname(values[1]);
+		user.setUsername(values[2]);
+		user.setPasswordHash(values[3]);
+		user.setPasswordSalt(values[4]);
+		user.setEmail(values[5]);
+		switch(values[6]) {
 			case "SYSADMIN":
 				user.setUserType(UserType.SYSADMIN);
 				break;
