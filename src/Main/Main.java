@@ -21,7 +21,8 @@ public class Main extends Application {
 	public static final String OFFICE_MANAGER_STAGE_URL = "Views/OfficeManager.fxml";
 	public static final String SYSADMIN_STAGE_URL = "Views/SysAdmin.fxml";
 	public static final String LOGIN_STAGE_URL = "Views/Login.fxml";
-	
+	public static final String SALES_ASSOCIATE_STAGE_URL="Views/Login.fxml";
+
 	public static void setStage(String stageUrl) throws IOException {
 		Parent root = FXMLLoader.load(Main.class.getResource(stageUrl));
 		Scene scene = new Scene(root);

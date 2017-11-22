@@ -50,7 +50,7 @@ public class LoginController {
 					Main.Main.setStage(Main.Main.WAREHOUSE_MANAGER_STAGE_URL);
 					break;
 				case SALES_ASSOCIATE:
-					//Main.Main.getStage().setScene(salesAssociateScene);
+					Main.Main.setStage(Main.Main.SALES_ASSOCIATE_STAGE_URL);
 					break;
 			}
 		} catch (IOException e) {
