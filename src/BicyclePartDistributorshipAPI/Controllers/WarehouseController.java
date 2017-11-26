@@ -74,6 +74,12 @@ public class WarehouseController {
         return new BicyclePartTuple(part, inventory.get(number).getQuantity());
     }
 
+    public void addInventory(long partNumber, int amount) throws IOException {
+        Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
+        inventory.setQuantity(inventory.getQuantity() + amount);
+        dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
+    }
+
     /**
      * Uses a transfer file to transfer parts between warehouses
      * @param filename filename of transfer file

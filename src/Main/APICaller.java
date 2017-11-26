@@ -33,6 +33,10 @@ public class APICaller {
         return (new WarehouseController(name));
     }
     
+    public static WarehouseController getMainWarehouseController() throws IOException {
+        return (new WarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME));
+    }
+    
     public static ArrayList<WarehouseController> getWarehouseControllerList() throws Exception {
         ArrayList<WarehouseController> controllers = new ArrayList<>();
         ArrayList<String> warehouseNames = new ArrayList<>();

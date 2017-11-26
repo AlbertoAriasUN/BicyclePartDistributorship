@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -94,14 +95,21 @@ public class OfficeManagerController implements Initializable{
     }
 
     @FXML
-    private void order_executeOrder(ActionEvent event) {
-        
+    private void order_executeOrder(ActionEvent event) throws IOException {
+        List<PartOrder> orders = order_partsTable.getItems();
+        WarehouseController controller = APICaller.getMainWarehouseController();
+        for(PartOrder order : orders) {
+            if(order.getRequestedQuantity() > 0) {
+                controller.addInventory(order.getPartNumber(), order.getRequestedQuantity());
+            }
+        }
+        order_populateTable();
     }
     
     private void order_populateTable() {
         ArrayList<PartOrder> tableRows = new ArrayList<>();
         try {
-            WarehouseController controller = APICaller.getWarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME);
+            WarehouseController controller = APICaller.getMainWarehouseController();
             ArrayList<Inventory> inventories = controller.getInventoryList();
             
             for(Inventory inventory : inventories) {
