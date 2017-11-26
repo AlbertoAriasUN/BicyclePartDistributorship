@@ -17,7 +17,7 @@ public class Inventory implements IDatabaseModel {
 		this.quantity = quantity;
 	}
 
-	public Object getBicyclePartNumber() {
+	public long getBicyclePartNumber() {
 		return bicyclePartNumber;
 	}
 

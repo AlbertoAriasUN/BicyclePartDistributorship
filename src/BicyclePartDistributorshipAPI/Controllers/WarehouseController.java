@@ -1,12 +1,15 @@
 package BicyclePartDistributorshipAPI.Controllers;
 
 import Database.Database;
-import Database.DatabaseListModel;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
+import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.Inventory;
+import Tools.BicyclePartTuple;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Controller for warehouses
@@ -16,29 +19,12 @@ public class WarehouseController {
 
     public static final String MAIN_WAREHOUSE_NAME = "Data/Warehouses/mainwh.txt";
 
-    private DatabaseConnection dbConnection;
-
-    public WarehouseController() throws IOException {
-    	dbConnection = new DatabaseConnection();
-    }
-
-    /**
-     * Adds a warehouse
-     * @param name name of warehouse to be added
-     * @param warehouse warehouse to be added
-     * @throws IOException Exception in writing file
-     */
-    public void addWarehouse(String filename) throws IOException {
-    	dbConnection.getWarehouseListDB().addValue(new DatabaseListModel(filename));
-    }
-
-    /**
-     * Removes a warehouse
-     * @param name warehouse to be removed
-     * @throws IOException Exception in writing file
-     */
-    public void removeWarehouse(String name) throws IOException {
-    	dbConnection.getWarehouseListDB().remove(name);
+    private final DatabaseConnection dbConnection;
+    private final String warehouseName;
+    
+    public WarehouseController(String warehouseName) throws IOException {
+        dbConnection = new DatabaseConnection();
+        this.warehouseName = warehouseName;
     }
 
     /**
@@ -49,16 +35,43 @@ public class WarehouseController {
     public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
         return dbConnection.getWarehouseMap();
     }
-
-    /**
-     * Gets controller for a specified warehouse
-     * @param warehouseName name of warehouse
-     * @return controller for warehouse
-     * @throws IOException 
-     */
-    public PartController getPartController(String warehouseName) throws IOException {
-        final PartController controller = new PartController(warehouseName);
-        return controller;
+    
+    public Map<Object, Inventory> getInventoryMap() throws IOException {
+        return dbConnection.getWarehouseDB(warehouseName).getValues();
+    }
+    
+    public ArrayList<Inventory> getInventoryList() throws IOException {
+        ArrayList<Inventory> inventory = new ArrayList<>();
+        for(Inventory value : getInventoryMap().values()) {
+            inventory.add(value);
+        }
+        return inventory;
+    }
+    
+    public ArrayList<BicyclePartTuple> getPartTuples() throws IOException {
+        ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
+        Map<Object, Inventory> inventory = getInventoryMap();
+        ArrayList<BicyclePart> parts = dbConnection.getBicyclePartsDB().getValuesList();
+        
+        for(BicyclePart part : parts) {
+            int quantity = inventory.get(part.getPartNumber()).getQuantity();
+            tuples.add(new BicyclePartTuple(part, quantity));
+        }
+        return tuples;
+    }
+    
+    public BicyclePartTuple getPartTuple(String name) throws Exception {
+        ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
+        Map<Object, Inventory> inventory = getInventoryMap();
+        BicyclePart part = dbConnection.getBicyclePartsDB().getValueEquals("partName", name);
+        return new BicyclePartTuple(part, inventory.get(part.getPartNumber()).getQuantity());
+    }
+    
+    public BicyclePartTuple getPartTuple(long number) throws Exception {
+        ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
+        Map<Object, Inventory> inventory = getInventoryMap();
+        BicyclePart part = dbConnection.getBicyclePartsDB().getValue(number);
+        return new BicyclePartTuple(part, inventory.get(number).getQuantity());
     }
 
     /**

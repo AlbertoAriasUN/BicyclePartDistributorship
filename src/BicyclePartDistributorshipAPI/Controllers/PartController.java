@@ -1,14 +1,13 @@
 package BicyclePartDistributorshipAPI.Controllers;
 
 import Database.Database;
-import Tools.BicyclePartTuple;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
-import BicyclePartDistributorshipAPI.Models.Inventory;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 /**
  * Controller for part listings
@@ -16,17 +15,13 @@ import java.util.ArrayList;
  */
 public class PartController {
 
-	private DatabaseConnection dbConnection;
-
-	private String warehouseName;
+    private final DatabaseConnection dbConnection;
 	
     /**
      * Initialize PartController
-     * @param warehouse PartWarehouse to be used
      */
-    public PartController(String warehouseName) {
+    public PartController() {
     	dbConnection = new DatabaseConnection();
-    	this.warehouseName = warehouseName;
     }
 
     /**
@@ -35,16 +30,16 @@ public class PartController {
      * @throws IOException Exception in writing to DB file
      */
     public void sellPart(Long partNumber) throws IOException {
-        Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
+        /*Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
         if(inventory != null) {
             inventory.setQuantity(inventory.getQuantity() - 1);
             dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
-        }
+        }*/
     }
 
     /**
      * Adds a part
-     * @param partListing Part listing to be added
+     * @param part
      * @throws IOException Exception in writing to DB file
      */
     public void addPart(BicyclePart part) throws IOException {
@@ -59,7 +54,6 @@ public class PartController {
     public void addPartsFromFile(String dbFilename) throws IOException {
     	Database<BicyclePart> tmp = new Database<>(dbFilename, new BicyclePartFactory());
     	ArrayList<BicyclePart> parts = tmp.getValuesList();
-
     	for(BicyclePart part : parts) {
     		dbConnection.getBicyclePartsDB().addValue(part);
     	}
@@ -71,13 +65,9 @@ public class PartController {
      * @return Corresponding part listing
      * @throws IOException Exception in reading file
      */
-    public BicyclePartTuple getPart(String partName) throws Exception {
-    	Database<BicyclePart> bicyclePartsDB = dbConnection.getBicyclePartsDB();
-    	Database<Inventory> warehouseDB = dbConnection.getWarehouseDB(warehouseName);
-    	
-        BicyclePart part = bicyclePartsDB.getValueEquals("partName", partName);
-        Integer quantity = warehouseDB.getValue(part.getPrimaryKey()).getQuantity();
-        return new BicyclePartTuple(part, quantity);
+    public BicyclePart getPart(String partName) throws Exception {
+    	Map<Object, BicyclePart> parts = dbConnection.getBicyclePartsDB().getValues();
+        return parts.get(partName);
     }
 
     /**
@@ -86,13 +76,8 @@ public class PartController {
      * @return Corresponding part listing
      * @throws IOException Exception in reading file
      */
-    public BicyclePartTuple getPart(Long partNumber) throws IOException {
-    	Database<BicyclePart> bicyclePartsDB = dbConnection.getBicyclePartsDB();
-    	Database<Inventory> warehouseDB = dbConnection.getWarehouseDB(warehouseName);
-    	
-        Integer quantity = warehouseDB.getValue(partNumber).getQuantity();
-        BicyclePart part = bicyclePartsDB.getValue(partNumber);
-        return new BicyclePartTuple(part, quantity);
+    public BicyclePart getPart(Long partNumber) throws IOException {
+        return dbConnection.getBicyclePartsDB().getValue(partNumber);
     }
 
     /**
@@ -100,16 +85,7 @@ public class PartController {
      * @return ArrayList of part listings
      * @throws IOException Exception in reading from DB file
      */
-    public ArrayList<BicyclePartTuple> getParts() throws IOException {
-    	Database<Inventory> warehouseDB = dbConnection.getWarehouseDB(warehouseName);
-    	Database<BicyclePart> bicyclePartsDB = dbConnection.getBicyclePartsDB();
-        
-    	ArrayList<BicyclePartTuple> bicyclePartTuples = new ArrayList<>();
-        for(Object key : warehouseDB.getValues().keySet()) {
-        	BicyclePart part = bicyclePartsDB.getValue(key);
-        	Integer quantity = warehouseDB.getValue(key).getQuantity();
-        	bicyclePartTuples.add(new BicyclePartTuple(part, quantity));
-        }
-        return bicyclePartTuples;
+    public ArrayList<BicyclePart> getParts() throws IOException {
+        return dbConnection.getBicyclePartsDB().getValuesList();
     }
 }
