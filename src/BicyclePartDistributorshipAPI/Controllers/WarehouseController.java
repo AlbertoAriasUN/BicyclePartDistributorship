@@ -21,7 +21,7 @@ public class WarehouseController {
 
     private final DatabaseConnection dbConnection;
     private final String warehouseName;
-    
+
     public WarehouseController(String warehouseName) throws IOException {
         dbConnection = new DatabaseConnection();
         this.warehouseName = warehouseName;
@@ -30,16 +30,16 @@ public class WarehouseController {
     /**
      * Gets HashMap<> of warehouses
      * @return
-     * @throws IOException 
+     * @throws IOException
      */
     public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
         return dbConnection.getWarehouseMap();
     }
-    
+
     public Map<Object, Inventory> getInventoryMap() throws IOException {
         return dbConnection.getWarehouseDB(warehouseName).getValues();
     }
-    
+
     public ArrayList<Inventory> getInventoryList() throws IOException {
         ArrayList<Inventory> inventory = new ArrayList<>();
         for(Inventory value : getInventoryMap().values()) {
@@ -47,28 +47,26 @@ public class WarehouseController {
         }
         return inventory;
     }
-    
+
     public ArrayList<BicyclePartTuple> getPartTuples() throws IOException {
         ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
         Map<Object, Inventory> inventory = getInventoryMap();
         ArrayList<BicyclePart> parts = dbConnection.getBicyclePartsDB().getValuesList();
-        
+
         for(BicyclePart part : parts) {
             int quantity = inventory.get(part.getPartNumber()).getQuantity();
             tuples.add(new BicyclePartTuple(part, quantity));
         }
         return tuples;
     }
-    
+
     public BicyclePartTuple getPartTuple(String name) throws Exception {
-        ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
         Map<Object, Inventory> inventory = getInventoryMap();
         BicyclePart part = dbConnection.getBicyclePartsDB().getValueEquals("partName", name);
         return new BicyclePartTuple(part, inventory.get(part.getPartNumber()).getQuantity());
     }
-    
-    public BicyclePartTuple getPartTuple(long number) throws Exception {
-        ArrayList<BicyclePartTuple> tuples = new ArrayList<>();
+
+    public BicyclePartTuple getPartTuple(long number) throws IOException {
         Map<Object, Inventory> inventory = getInventoryMap();
         BicyclePart part = dbConnection.getBicyclePartsDB().getValue(number);
         return new BicyclePartTuple(part, inventory.get(number).getQuantity());

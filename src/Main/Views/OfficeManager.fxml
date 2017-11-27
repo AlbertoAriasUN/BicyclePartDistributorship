@@ -11,11 +11,11 @@
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.control.cell.TextFieldTableCell?>
 
-<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.OfficeManagerController">
+<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.OfficeManagerController">
    <children>
       <TabPane prefHeight="401.0" prefWidth="535.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -60,24 +60,24 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TableView fx:id="order_partsTable" layoutY="26.0" prefHeight="258.0" prefWidth="535.0" editable="true">
+                        <TableView fx:id="order_partsTable" editable="true" layoutY="26.0" prefHeight="258.0" prefWidth="535.0">
                             <columns>
-                                <TableColumn prefWidth="100.0" text="Part Number">
+                                <TableColumn prefWidth="95.0" text="Part Number">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="partNumber" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn prefWidth="100.0" text="Part Name">
+                                <TableColumn prefWidth="106.0" text="Part Name">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="partName" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn prefWidth="100.0" text="Current Quantity">
+                                <TableColumn prefWidth="106.0" text="Quantity">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="currentQuantity" />
                                     </cellValueFactory>
                                 </TableColumn>
-                                <TableColumn prefWidth="100.0" text="Quantity to be ordered" editable="true" fx:id="order_requestColumn">
+                                <TableColumn fx:id="order_requestColumn" editable="true" prefWidth="106.0" text="Requested">
                                     <cellValueFactory>
                                         <PropertyValueFactory property="requestedQuantity" />
                                     </cellValueFactory>
@@ -85,9 +85,15 @@
                                         <TextFieldTableCell fx:factory="forTableColumn" />
                                     </cellFactory>
                                 </TableColumn>
+                                <TableColumn prefWidth="110.0" text="Alert Threshold">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="stockThreshold" />
+                                    </cellValueFactory>
+                                </TableColumn>
                             </columns>
                         </TableView>
-                        <Button layoutX="222.0" layoutY="310.0" mnemonicParsing="false" onAction="#order_executeOrder" text="Execute Order" />
+                        <Button layoutX="222.0" layoutY="299.0" mnemonicParsing="false" onAction="#order_executeOrder" text="Execute Order" />
+                        <Button layoutX="210.0" layoutY="333.0" mnemonicParsing="false" onAction="#order_fillThreshold" text="Order to threshold" />
                      </children>
                   </AnchorPane>
               </content>

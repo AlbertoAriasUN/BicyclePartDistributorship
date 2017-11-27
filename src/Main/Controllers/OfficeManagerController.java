@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
@@ -41,6 +42,8 @@ public class OfficeManagerController implements Initializable{
     private TableView<PartOrder> order_partsTable;
     @FXML
     private TableColumn<PartOrder, Integer> order_requestColumn;
+    @FXML
+    private TableColumn<PartOrder, Integer> order_thresholdColumn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -50,10 +53,11 @@ public class OfficeManagerController implements Initializable{
         selections.add("=");
         examine_symbolDropdown.getItems().setAll(selections);
         examine_symbolDropdown.setValue(selections.get(0));
-        
+
         order_populateTable();
         order_requestColumn.setCellFactory(TextFieldTableCell.<PartOrder, Integer>forTableColumn(new IntegerStringConverter()));
         order_requestColumn.setOnEditCommit(event -> event.getRowValue().setRequestedQuantity(event.getNewValue()));
+
     }
 
     @FXML
@@ -105,22 +109,47 @@ public class OfficeManagerController implements Initializable{
         }
         order_populateTable();
     }
-    
+
+    @FXML
+    private void order_fillThreshold(ActionEvent event) throws IOException {
+    	List<PartOrder> orders = order_partsTable.getItems();
+    	WarehouseController controller = APICaller.getMainWarehouseController();
+    	for(PartOrder order : orders) {
+    		int deficit = order.getStockThreshold() - order.getCurrentQuantity();
+    		if(deficit > 0) {
+    			controller.addInventory(order.getPartNumber(), deficit);
+    		}
+    	}
+    	order_populateTable();
+    }
+
     private void order_populateTable() {
         ArrayList<PartOrder> tableRows = new ArrayList<>();
         try {
             WarehouseController controller = APICaller.getMainWarehouseController();
             ArrayList<Inventory> inventories = controller.getInventoryList();
-            
+
             for(Inventory inventory : inventories) {
-                PartOrder row = new PartOrder((Long) inventory.getBicyclePartNumber(), null, inventory.getQuantity(), 0);
+                PartOrder row = new PartOrder((Long) inventory.getBicyclePartNumber(), null, inventory.getQuantity(), 0, 0);
                 BicyclePart partDefinition = APICaller.getPartController().getPart(inventory.getBicyclePartNumber());
                 row.setPartName(partDefinition.getPartName());
+                row.setStockThreshold(partDefinition.getStockThreshold());
                 tableRows.add(row);
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
         order_partsTable.getItems().setAll(tableRows);
+
+        //Set color to rows with part deficit
+        order_partsTable.setRowFactory(row -> new TableRow<PartOrder>() {
+        	@Override
+        	public void updateItem(PartOrder order, boolean empty) {
+        		super.updateItem(order, empty);
+        		if(!empty && order.getCurrentQuantity() < order.getStockThreshold()) {
+        			setStyle("-fx-background-color: #f28181");
+        		}
+        	}
+        });
     }
 }

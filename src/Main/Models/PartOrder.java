@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Main.Models;
 
 /**
@@ -10,51 +5,96 @@ package Main.Models;
  * @author Matthew
  */
 public class PartOrder {
-    
+
     private long partNumber;
-    
+
     private String partName;
-    
+
     private int currentQuantity;
-   
+
     private int requestedQuantity;
 
-    public PartOrder(long partNumber, String partName, int currentQuantity, int requestedQuantity) {
-        this.partNumber = partNumber;
-        this.partName = partName;
-        this.currentQuantity = currentQuantity;
-        this.requestedQuantity = requestedQuantity;
-    }
-    
-    public long getPartNumber() {
-        return partNumber;
-    }
+    private int stockThreshold;
 
-    public void setPartNumber(long partNumber) {
-        this.partNumber = partNumber;
-    }
 
-    public String getPartName() {
-        return partName;
-    }
 
-    public void setPartName(String partName) {
-        this.partName = partName;
-    }
+	public PartOrder(long partNumber, String partName, int currentQuantity, int requestedQuantity, int stockThreshold) {
+		this.partNumber = partNumber;
+		this.partName = partName;
+		this.currentQuantity = currentQuantity;
+		this.requestedQuantity = requestedQuantity;
+		this.stockThreshold = stockThreshold;
+	}
 
-    public int getCurrentQuantity() {
-        return currentQuantity;
-    }
+	/**
+	 * @return the partNumber
+	 */
+	public long getPartNumber() {
+		return partNumber;
+	}
 
-    public void setCurrentQuantity(int currentQuantity) {
-        this.currentQuantity = currentQuantity;
-    }
+	/**
+	 * @return the partName
+	 */
+	public String getPartName() {
+		return partName;
+	}
 
-    public int getRequestedQuantity() {
-        return requestedQuantity;
-    }
+	/**
+	 * @return the currentQuantity
+	 */
+	public int getCurrentQuantity() {
+		return currentQuantity;
+	}
 
-    public void setRequestedQuantity(int requestedQuantity) {
-        this.requestedQuantity = requestedQuantity;
-    }
+	/**
+	 * @return the requestedQuantity
+	 */
+	public int getRequestedQuantity() {
+		return requestedQuantity;
+	}
+
+	/**
+	 * @return the stockThreshold
+	 */
+	public int getStockThreshold() {
+		return stockThreshold;
+	}
+
+	/**
+	 * @param partNumber the partNumber to set
+	 */
+	public void setPartNumber(long partNumber) {
+		this.partNumber = partNumber;
+	}
+
+	/**
+	 * @param partName the partName to set
+	 */
+	public void setPartName(String partName) {
+		this.partName = partName;
+	}
+
+	/**
+	 * @param currentQuantity the currentQuantity to set
+	 */
+	public void setCurrentQuantity(int currentQuantity) {
+		this.currentQuantity = currentQuantity;
+	}
+
+	/**
+	 * @param requestedQuantity the requestedQuantity to set
+	 */
+	public void setRequestedQuantity(int requestedQuantity) {
+		this.requestedQuantity = requestedQuantity;
+	}
+
+	/**
+	 * @param stockThreshold the stockThreshold to set
+	 */
+	public void setStockThreshold(int stockThreshold) {
+		this.stockThreshold = stockThreshold;
+	}
+
+
 }
