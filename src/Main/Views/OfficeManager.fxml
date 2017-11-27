@@ -51,7 +51,41 @@
                         <TextField fx:id="examine_quantityField" layoutX="268.0" layoutY="105.0" promptText="Enter a Quantity" />
                         <Label layoutX="23.0" layoutY="109.0" text="Display parts by quantity" />
                         <Button layoutX="442.0" layoutY="56.0" mnemonicParsing="false" onAction="#examine_displayPartByName" text="Display" />
-                        <TextArea fx:id="examine_displayPartArea" layoutX="30.0" layoutY="145.0" prefHeight="200.0" prefWidth="455.0" />
+                        <!--  <TextArea fx:id="examine_displayPartArea" layoutX="30.0" layoutY="145.0" prefHeight="200.0" prefWidth="455.0" />  -->
+                        <TableView fx:id="examine_partTable" editable="true" layoutY="145.0" prefHeight="200.0" prefWidth="535.0">
+                            <columns>
+                                <TableColumn prefWidth="89.0" text="Part Number">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="partNumber" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="89.0" text="Part Name">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="partName" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="89.0" text="List Price">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="listPrice" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="89.0" text="Sale Price">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="salePrice" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="89.0" text="On Sale">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="isOnSale" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="89.0" text="Quantity">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="quantity" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
                      </children>
                   </AnchorPane>
             </content>

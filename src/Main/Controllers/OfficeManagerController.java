@@ -4,6 +4,7 @@ import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.Inventory;
 import Main.APICaller;
+import Main.Models.ExaminePartTableRow;
 import Main.Models.PartOrder;
 import Tools.BicyclePartTuple;
 import java.io.IOException;
@@ -37,13 +38,14 @@ public class OfficeManagerController extends FXMLController implements Initializ
     @FXML
     private TextField examine_quantityField;
     @FXML
-    private TextArea examine_displayPartArea;
+    private TableView<ExaminePartTableRow> examine_partTable;
     @FXML
     private TableView<PartOrder> order_partsTable;
     @FXML
     private TableColumn<PartOrder, Integer> order_requestColumn;
     @FXML
     private TableColumn<PartOrder, Integer> order_thresholdColumn;
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -58,6 +60,7 @@ public class OfficeManagerController extends FXMLController implements Initializ
         order_requestColumn.setCellFactory(TextFieldTableCell.<PartOrder, Integer>forTableColumn(new IntegerStringConverter()));
         order_requestColumn.setOnEditCommit(event -> event.getRowValue().setRequestedQuantity(event.getNewValue()));
 
+        //Show minimum part threshold warning dialog
         List<PartOrder> orders = order_partsTable.getItems();
         String message = "";
         for(PartOrder order : orders) {
@@ -90,24 +93,29 @@ public class OfficeManagerController extends FXMLController implements Initializ
     private void examine_displayPartsByQuantity(ActionEvent event) throws IOException {
         int quantity = Integer.parseInt(examine_quantityField.getText());
         char sign = examine_symbolDropdown.getValue().charAt(0);
-        ArrayList<BicyclePartTuple> bicyclePartTuples = APICaller.getWarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME).getPartTuples();
-        examine_displayPartArea.setText("");
-        for(BicyclePartTuple tuple : bicyclePartTuples)
+        ArrayList<BicyclePartTuple> tuples = APICaller.getWarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME).getPartTuples();
+        ArrayList<ExaminePartTableRow> rows = new ArrayList<>();
+        for(BicyclePartTuple tuple : tuples)
         {
-            if(sign == '<' && tuple.getQuantity() < quantity)
-                examine_displayPartArea.appendText(tuple.toString()+"\n");
-            else if(sign == '>' && tuple.getQuantity() > quantity)
-                examine_displayPartArea.appendText(tuple.toString()+"\n");
-            else if(sign == '=' && tuple.getQuantity() == quantity)
-                examine_displayPartArea.appendText(tuple.toString()+"\n");
+        	if(sign == '<' && tuple.getQuantity() < quantity) {
+        		rows.add(new ExaminePartTableRow(tuple));
+        	}
+        	else if(sign == '>' && tuple.getQuantity() > quantity) {
+        		rows.add(new ExaminePartTableRow(tuple));
+        	}
+        	else if(sign == '=' && tuple.getQuantity() == quantity) {
+        		rows.add(new ExaminePartTableRow(tuple));
+        	}
         }
+        examine_partTable.getItems().setAll(rows);
     }
 
     @FXML
     private void examine_displayPartByName(ActionEvent event) throws Exception {
         String name = examine_partNameField.getText();
         BicyclePartTuple tuple = APICaller.getWarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME).getPartTuple(name);
-        examine_displayPartArea.setText(tuple.toString());
+        ExaminePartTableRow row = new ExaminePartTableRow(tuple);
+        examine_partTable.getItems().setAll(new ExaminePartTableRow[] {row});
     }
 
     @FXML
