@@ -20,7 +20,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 
-public class OfficeManagerController implements Initializable{
+public class OfficeManagerController extends FXMLController implements Initializable {
 
     @FXML
     private TextArea invoice_textArea;
@@ -57,6 +57,18 @@ public class OfficeManagerController implements Initializable{
         order_populateTable();
         order_requestColumn.setCellFactory(TextFieldTableCell.<PartOrder, Integer>forTableColumn(new IntegerStringConverter()));
         order_requestColumn.setOnEditCommit(event -> event.getRowValue().setRequestedQuantity(event.getNewValue()));
+
+        List<PartOrder> orders = order_partsTable.getItems();
+        String message = "";
+        for(PartOrder order : orders) {
+        	int deficit = order.getStockThreshold() - order.getCurrentQuantity();
+        	if(deficit > 0) {
+        		message += "Part #" + order.getPartNumber() + ": " + deficit + " parts below minimum threshold.\n";
+        	}
+        }
+        if(!message.equals("")) {
+        	showWarningDialog(message);
+        }
 
     }
 
