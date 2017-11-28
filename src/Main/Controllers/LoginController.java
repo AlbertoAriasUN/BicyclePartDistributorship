@@ -36,7 +36,7 @@ public class LoginController {
 		if(user == null) {
 			System.out.println("Username/Password incorrect");
 		}
-
+		else
 		//Uncomment switch cases as FXML pages get added
 		try {
 			switch(user.getType()) {
