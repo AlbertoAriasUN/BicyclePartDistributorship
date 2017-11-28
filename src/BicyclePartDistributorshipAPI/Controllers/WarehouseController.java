@@ -14,9 +14,9 @@ import java.util.HashMap;
  */
 public class WarehouseController {
 
-	public static final String MAIN_WAREHOUSE_NAME = "mainwh.txt";
+    public static final String MAIN_WAREHOUSE_NAME = "Data/Warehouses/mainwh.txt";
 
-	private DatabaseConnection dbConnection;
+    private DatabaseConnection dbConnection;
 
     public WarehouseController() throws IOException {
     	dbConnection = new DatabaseConnection();
