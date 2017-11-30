@@ -2,6 +2,7 @@ package Main.Controllers;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
 
 public class FXMLController {
 	public void showWarningDialog(String message) {
@@ -9,6 +10,7 @@ public class FXMLController {
 		alert.setTitle("Warning");
 		alert.setHeaderText(null);
 		alert.setContentText(message);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
 
@@ -17,6 +19,8 @@ public class FXMLController {
 		alert.setTitle("Error");
 		alert.setHeaderText(null);
 		alert.setContentText(message);
+		alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+		alert.getDialogPane().setMinWidth(Region.USE_PREF_SIZE);
 		alert.showAndWait();
 	}
 }

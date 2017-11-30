@@ -7,6 +7,8 @@ import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
 import BicyclePartDistributorshipAPI.Models.Inventory;
 import BicyclePartDistributorshipAPI.Models.InventoryFactory;
+import BicyclePartDistributorshipAPI.Models.SaleRecord;
+import BicyclePartDistributorshipAPI.Models.SaleRecordFactory;
 import BicyclePartDistributorshipAPI.Models.User;
 import BicyclePartDistributorshipAPI.Models.UserFactory;
 
@@ -20,6 +22,7 @@ public class DatabaseConnection {
 	private final String WAREHOUSE_LIST_DB_FILENAME = "Data/warehouses.txt";
 	private final String BICYCLE_PARTS_DB_FILENAME = "Data/bikeParts.txt";
 	private final String USER_DB_FILENAME = "Data/users.txt";
+	private final String SALES_DB_FILENAME = "Data/sales.txt";
 
 	public DatabaseConnection() {
 	}
@@ -49,5 +52,9 @@ public class DatabaseConnection {
 
 	public Database<User> getUserDB() throws IOException {
 		return new Database<>(USER_DB_FILENAME, new UserFactory());
+	}
+	
+	public Database<SaleRecord> getSaleRecordsDB() throws IOException {
+		return new Database<>(SALES_DB_FILENAME, new SaleRecordFactory());
 	}
 }

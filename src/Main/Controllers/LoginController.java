@@ -32,7 +32,6 @@ public class LoginController {
 			System.out.println("Username/Password incorrect");
 		}
 
-		//Uncomment switch cases as FXML pages get added
 		try {
 			switch(user.getType()) {
 				case SYSADMIN:

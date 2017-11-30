@@ -15,7 +15,7 @@ public class UserController {
     public UserController() throws IOException {
         dbConnection = new DatabaseConnection();
     }
-//as doashd oas dhoa hsd
+    
     /**
     * Checks password against password stored for user in the database
     * @param username Username of user to check

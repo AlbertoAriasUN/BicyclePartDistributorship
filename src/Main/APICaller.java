@@ -1,6 +1,7 @@
 package Main;
 
 import BicyclePartDistributorshipAPI.Controllers.PartController;
+import BicyclePartDistributorshipAPI.Controllers.SaleController;
 import BicyclePartDistributorshipAPI.Controllers.UserController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
@@ -52,5 +53,9 @@ public class APICaller {
 
     public static UserController getUserController() throws IOException {
     	return (new UserController());
+    }
+    
+    public static SaleController getSaleController() throws IOException {
+    	return (new SaleController());
     }
 }
