@@ -25,7 +25,7 @@ public class DatabaseConnection {
 	}
 
 	public Database<DatabaseListModel> getWarehouseListDB() throws IOException {
-		return new Database<DatabaseListModel>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
+		return new Database<>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
 	}
 
 	public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
@@ -34,7 +34,7 @@ public class DatabaseConnection {
 																 		.stream().map(s -> s.getDatabaseFilePath())
 																 		.collect(Collectors.toList());
 		for(String filename : WAREHOUSE_DB_FILENAMES) {
-			warehouses.put(filename, new Database<Inventory>(filename, new InventoryFactory()));
+			warehouses.put(filename, new Database<>(filename, new InventoryFactory()));
 		}
 		return warehouses;
 	}
@@ -44,10 +44,10 @@ public class DatabaseConnection {
 	}
 
 	public Database<BicyclePart> getBicyclePartsDB() throws IOException {
-		return new Database<BicyclePart>(BICYCLE_PARTS_DB_FILENAME, new BicyclePartFactory());
+		return new Database<>(BICYCLE_PARTS_DB_FILENAME, new BicyclePartFactory());
 	}
 
 	public Database<User> getUserDB() throws IOException {
-		return new Database<User>(USER_DB_FILENAME, new UserFactory());
+		return new Database<>(USER_DB_FILENAME, new UserFactory());
 	}
 }

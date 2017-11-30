@@ -11,7 +11,11 @@ public class BicyclePartFactory implements IDatabaseModelFactory {
 		bikePart.setPartNumber(Long.parseLong(values[1]));
 		bikePart.setListPrice(Double.parseDouble(values[2]));
 		bikePart.setSalePrice(Double.parseDouble(values[3]));
-		bikePart.setIsOnSale(Boolean.parseBoolean(values[4]));
+		bikePart.setOnSale(Boolean.parseBoolean(values[4]));
+		if(values.length > 5) {
+			bikePart.setStockThreshold(Integer.parseInt(values[5]));
+		}
+		else bikePart.setStockThreshold(0);
 		return bikePart;
 	}
 }

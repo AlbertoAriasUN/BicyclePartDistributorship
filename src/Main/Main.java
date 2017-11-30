@@ -2,7 +2,6 @@ package Main;
 
 import java.io.IOException;
 
-import BicyclePartDistributorshipAPI.Models.User.UserType;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,8 +19,7 @@ public class Main extends Application {
 	public static final String WAREHOUSE_MANAGER_STAGE_URL = "Views/WarehouseManager.fxml";
 	public static final String OFFICE_MANAGER_STAGE_URL = "Views/OfficeManager.fxml";
 	public static final String SYSADMIN_STAGE_URL = "Views/SysAdmin.fxml";
-	public static final String LOGIN_STAGE_URL = "Views/Login.fxml";
-	public static final String SALES_ASSOCIATE_STAGE_URL="Views/Login.fxml";
+	public static final String LOGIN_STAGE_URL = "Views/OfficeManager.fxml";
 
 	public static void setStage(String stageUrl) throws IOException {
 		Parent root = FXMLLoader.load(Main.class.getResource(stageUrl));

@@ -34,6 +34,7 @@ public class Database<E extends IDatabaseModel> {
 
 	/**
      * Constructs empty Database
+     * @param modelFactory
      */
     public Database(IDatabaseModelFactory modelFactory) {
         this.dbFilename = null;

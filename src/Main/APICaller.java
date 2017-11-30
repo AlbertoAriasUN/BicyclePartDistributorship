@@ -3,12 +3,10 @@ package Main;
 import BicyclePartDistributorshipAPI.Controllers.PartController;
 import BicyclePartDistributorshipAPI.Controllers.UserController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
-import Database.Database;
-import BicyclePartDistributorshipAPI.Models.Inventory;
+import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Allows FXML controllers to call API
@@ -17,36 +15,39 @@ import java.util.HashMap;
 public class APICaller {
 
     /**
-     * Access API Controller for all warehouses
-     * @return Controller for aggregate warehouse
-     * @throws IOException Exception in reading file
-     */
-    public static ArrayList<PartController> getAllPartControllers() throws IOException {
-    	ArrayList<PartController> partControllers = new ArrayList<>();
-    	HashMap<String, Database<Inventory>> warehouses = new WarehouseController().getWarehouseMap();
-    	for(String key : warehouses.keySet()) {
-    		partControllers.add(new WarehouseController().getPartController(key));
-    	}
-    	return partControllers;
-    }
-
-    /**
      * Access API Controller for a specific warehouse
-     * @param warehouseName
      * @return Controller for specified warehouse
      * @throws IOException
      */
-    public static PartController getPartController(String warehouseName) throws IOException {
-    	return (new WarehouseController().getPartController(warehouseName));
+    public static PartController getPartController() throws IOException {
+    	return (new PartController());
     }
 
     /**
      * Access API Controller to execute warehouse-level operations
+     * @param name
      * @return Controller containing all warehouses
      * @throws IOException Exception in reading file
      */
-    public static WarehouseController getWarehouseController() throws IOException {
-        return (new WarehouseController());
+    public static WarehouseController getWarehouseController(String name) throws IOException {
+        return (new WarehouseController(name));
+    }
+    
+    public static WarehouseController getMainWarehouseController() throws IOException {
+        return (new WarehouseController(WarehouseController.MAIN_WAREHOUSE_NAME));
+    }
+    
+    public static ArrayList<WarehouseController> getWarehouseControllerList() throws Exception {
+        ArrayList<WarehouseController> controllers = new ArrayList<>();
+        ArrayList<String> warehouseNames = new ArrayList<>();
+        
+        DatabaseConnection dbConnection = new DatabaseConnection();
+        dbConnection.getWarehouseMap().forEach((k,v) -> warehouseNames.add(k));
+        for(String name : warehouseNames) {
+            controllers.add(new WarehouseController(name));
+        }
+        
+        return controllers;
     }
 
     public static UserController getUserController() throws IOException {
