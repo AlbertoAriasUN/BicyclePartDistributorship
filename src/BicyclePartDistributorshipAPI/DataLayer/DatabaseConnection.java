@@ -7,6 +7,8 @@ import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
 import BicyclePartDistributorshipAPI.Models.Inventory;
 import BicyclePartDistributorshipAPI.Models.InventoryFactory;
+import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecord;
+import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecordFactory;
 import BicyclePartDistributorshipAPI.Models.SaleRecord;
 import BicyclePartDistributorshipAPI.Models.SaleRecordFactory;
 import BicyclePartDistributorshipAPI.Models.User;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 public class DatabaseConnection {
 	
 	private final String WAREHOUSE_LIST_DB_FILENAME = "Data/warehouses.txt";
+	private final String INVOICE_LIST_DB_FILENAME = "Data/invoices.txt";
 	private final String BICYCLE_PARTS_DB_FILENAME = "Data/bikeParts.txt";
 	private final String USER_DB_FILENAME = "Data/users.txt";
 	private final String SALES_DB_FILENAME = "Data/sales.txt";
@@ -30,6 +33,11 @@ public class DatabaseConnection {
 	public Database<DatabaseListModel> getWarehouseListDB() throws IOException {
 		return new Database<>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
 	}
+	
+	public Database<DatabaseListModel> getInvoiceListDB() throws IOException {
+		return new Database<>(INVOICE_LIST_DB_FILENAME, new DatabaseListModelFactory());
+	}
+	
 
 	public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
 		HashMap<String, Database<Inventory>> warehouses = new HashMap<>();
@@ -42,10 +50,25 @@ public class DatabaseConnection {
 		return warehouses;
 	}
 
+	public HashMap<String, Database<InvoiceSaleRecord>> getInvoiceMap() throws IOException {
+		HashMap<String, Database<InvoiceSaleRecord>> invoices = new HashMap<>();
+		final List<String> INVOICE_DB_FILENAMES = getInvoiceListDB().getValuesList()
+																	 .stream().map(s -> s.getDatabaseFilePath())
+																	 .collect(Collectors.toList());
+		for(String filename : INVOICE_DB_FILENAMES) {
+			invoices.put(filename, new Database<>(filename, new InvoiceSaleRecordFactory()));
+		}
+		return invoices;	
+	}
+	
 	public Database<Inventory> getWarehouseDB(String name) throws IOException {
 		return getWarehouseMap().get(name);
 	}
 
+	public Database<InvoiceSaleRecord> getInvoiceDB(String name) throws IOException {
+		return getInvoiceMap().get(name);
+	}
+	
 	public Database<BicyclePart> getBicyclePartsDB() throws IOException {
 		return new Database<>(BICYCLE_PARTS_DB_FILENAME, new BicyclePartFactory());
 	}

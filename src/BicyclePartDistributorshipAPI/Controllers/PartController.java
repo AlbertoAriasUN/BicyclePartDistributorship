@@ -25,19 +25,6 @@ public class PartController {
     }
 
     /**
-     * Sell a part
-     * @param partNumber Part number of part listing to be sold
-     * @throws IOException Exception in writing to DB file
-     */
-    public void sellPart(Long partNumber) throws IOException {
-        /*Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
-        if(inventory != null) {
-            inventory.setQuantity(inventory.getQuantity() - 1);
-            dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
-        }*/
-    }
-
-    /**
      * Adds a part
      * @param part
      * @throws IOException Exception in writing to DB file

@@ -30,7 +30,8 @@ public class LoginController {
 
 		if(user == null) {
 			System.out.println("Username/Password incorrect");
-
+		}
+		
 		try {
 			switch(user.getType()) {
 				case SYSADMIN:
@@ -51,5 +52,4 @@ public class LoginController {
 		}
 
     }
-
 }

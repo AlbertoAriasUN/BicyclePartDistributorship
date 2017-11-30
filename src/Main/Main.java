@@ -1,10 +1,6 @@
 package Main;
 
 import java.io.IOException;
-import java.util.ArrayList;
-
-import BicyclePartDistributorshipAPI.Models.SaleRecord;
-import BicyclePartDistributorshipAPI.Models.SaleRecordFactory;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
