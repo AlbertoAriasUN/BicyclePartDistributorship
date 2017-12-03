@@ -9,8 +9,8 @@ public class UserFactory implements IDatabaseModelFactory {
 	public Object create(String csv) {
 		String[] values = csv.split(",");
 		User user = new User();
-		user.setFirstname(values[0]);
-		user.setLastname(values[1]);
+		user.setFirstName(values[0]);
+		user.setLastName(values[1]);
 		user.setUsername(values[2]);
 		user.setPasswordHash(values[3]);
 		user.setPasswordSalt(values[4]);

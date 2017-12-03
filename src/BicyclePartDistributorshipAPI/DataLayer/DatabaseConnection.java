@@ -11,6 +11,8 @@ import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecord;
 import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecordFactory;
 import BicyclePartDistributorshipAPI.Models.SaleRecord;
 import BicyclePartDistributorshipAPI.Models.SaleRecordFactory;
+import BicyclePartDistributorshipAPI.Models.SalesVan;
+import BicyclePartDistributorshipAPI.Models.SalesVanFactory;
 import BicyclePartDistributorshipAPI.Models.User;
 import BicyclePartDistributorshipAPI.Models.UserFactory;
 
@@ -26,9 +28,7 @@ public class DatabaseConnection {
 	private final String BICYCLE_PARTS_DB_FILENAME = "Data/bikeParts.txt";
 	private final String USER_DB_FILENAME = "Data/users.txt";
 	private final String SALES_DB_FILENAME = "Data/sales.txt";
-
-	public DatabaseConnection() {
-	}
+	private final String SALES_VAN_DB_FILENAME = "Data/salesVans.txt";
 
 	public Database<DatabaseListModel> getWarehouseListDB() throws IOException {
 		return new Database<>(WAREHOUSE_LIST_DB_FILENAME, new DatabaseListModelFactory());
@@ -38,14 +38,16 @@ public class DatabaseConnection {
 		return new Database<>(INVOICE_LIST_DB_FILENAME, new DatabaseListModelFactory());
 	}
 	
-
 	public HashMap<String, Database<Inventory>> getWarehouseMap() throws IOException {
 		HashMap<String, Database<Inventory>> warehouses = new HashMap<>();
 		final List<String> WAREHOUSE_DB_FILENAMES = getWarehouseListDB().getValuesList()
 																 		.stream().map(s -> s.getDatabaseFilePath())
 																 		.collect(Collectors.toList());
+		
 		for(String filename : WAREHOUSE_DB_FILENAMES) {
-			warehouses.put(filename, new Database<>(filename, new InventoryFactory()));
+			String[] values = filename.split("/");
+			String warehouseName = values[values.length - 1].split("\\.")[0];
+			warehouses.put(warehouseName, new Database<>(filename, new InventoryFactory()));
 		}
 		return warehouses;
 	}
@@ -79,5 +81,9 @@ public class DatabaseConnection {
 	
 	public Database<SaleRecord> getSaleRecordsDB() throws IOException {
 		return new Database<>(SALES_DB_FILENAME, new SaleRecordFactory());
+	}
+	
+	public Database<SalesVan> getSalesVanDB() throws IOException {
+		return new Database<>(SALES_VAN_DB_FILENAME, new SalesVanFactory());
 	}
 }

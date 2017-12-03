@@ -2,8 +2,10 @@ package Main;
 
 import BicyclePartDistributorshipAPI.Controllers.PartController;
 import BicyclePartDistributorshipAPI.Controllers.SaleController;
+import BicyclePartDistributorshipAPI.Controllers.SalesVanController;
 import BicyclePartDistributorshipAPI.Controllers.UserController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
+import BicyclePartDistributorshipAPI.Controllers.WarehouseListController;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 
 import java.io.IOException;
@@ -15,6 +17,16 @@ import java.util.ArrayList;
  */
 public class APICaller {
 
+	private static String loggedInUser;
+	
+	public static void setLoggedInUser(String username) {
+		loggedInUser = username;
+	}
+	
+	public static String getLoggedInUser() {
+		return loggedInUser;
+	}
+	
     /**
      * Access API Controller for a specific warehouse
      * @return Controller for specified warehouse
@@ -24,6 +36,10 @@ public class APICaller {
     	return (new PartController());
     }
 
+    public static WarehouseListController getWarehouseListController() throws IOException {
+    	return (new WarehouseListController());
+    }
+    
     /**
      * Access API Controller to execute warehouse-level operations
      * @param name
@@ -59,4 +75,7 @@ public class APICaller {
     	return (new SaleController());
     }
     
+    public static SalesVanController getSalesVanController() throws IOException {
+    	return (new SalesVanController());
+    }
 }

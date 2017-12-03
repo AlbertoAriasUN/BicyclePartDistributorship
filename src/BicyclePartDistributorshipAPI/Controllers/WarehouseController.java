@@ -4,8 +4,12 @@ import Database.Database;
 import BicyclePartDistributorshipAPI.DataLayer.DatabaseConnection;
 import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.Inventory;
+import BicyclePartDistributorshipAPI.Models.InventoryFactory;
 import Tools.BicyclePartTuple;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +21,7 @@ import java.util.Map;
  */
 public class WarehouseController {
 
-    public static final String MAIN_WAREHOUSE_NAME = "Data/Warehouses/mainwh.txt";
+    public static final String MAIN_WAREHOUSE_NAME = "mainwh";
 
     private final DatabaseConnection dbConnection;
     private final String warehouseName;
@@ -54,8 +58,10 @@ public class WarehouseController {
         ArrayList<BicyclePart> parts = dbConnection.getBicyclePartsDB().getValuesList();
 
         for(BicyclePart part : parts) {
-            int quantity = inventory.get(part.getPartNumber()).getQuantity();
-            tuples.add(new BicyclePartTuple(part, quantity));
+        	if(inventory.containsKey(part.getPrimaryKey())) {
+        		int quantity = inventory.get(part.getPrimaryKey()).getQuantity();
+                tuples.add(new BicyclePartTuple(part, quantity));
+        	}
         }
         return tuples;
     }
@@ -74,40 +80,50 @@ public class WarehouseController {
 
     public void addInventory(long partNumber, int amount) throws IOException {
         Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
-        inventory.setQuantity(inventory.getQuantity() + amount);
-        dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
-    }
-
-    /**
-     * Uses a transfer file to transfer parts between warehouses
-     * @param filename filename of transfer file
-     * @throws IOException Exception in reading file
-     */
-    /*public void transferParts(String filename) throws IOException, IllegalArgumentException, IllegalAccessException, NoSuchFieldException, SecurityException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
-            String line = reader.readLine();
-            Database<BicyclePartListing> fromWarehouse = warehouses.get(line.split(",")[0]);
-            Database<BicyclePartListing> toWarehouse = warehouses.get(line.split(",")[1]);
-
-            while((line = reader.readLine()) != null) {
-               String name = line.split(",")[0];
-               int quantity = Integer.parseInt(line.split(",")[1]);
-
-               BicyclePartListing part = fromWarehouse.getValueEquals("partName", name);
-               part.setQuantity(part.getQuantity() - quantity);
-               fromWarehouse.setValue(part);
-
-               part = toWarehouse.getValueEquals("partName", name);
-               if(part != null) {
-                   part.setQuantity(part.getQuantity() + quantity);
-                   toWarehouse.setValue(part);
-               }
-               else {
-                   part = fromWarehouse.getValueEquals("partName", name);
-                   part.setQuantity(quantity);
-                   toWarehouse.addValue(part);
-               }
-            }
+        if(inventory == null) {
+        	dbConnection.getWarehouseDB(warehouseName).addValue(new Inventory(partNumber, amount));
         }
-    }*/
+        else {
+        	inventory.setQuantity(inventory.getQuantity() + amount);
+        	dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
+        }
+    }
+    
+    public void removeInventory(long partNumber, int amount) throws IOException {
+        Inventory inventory = dbConnection.getWarehouseDB(warehouseName).getValue(partNumber);
+        if(inventory == null) {
+        	return;
+        }
+        else {
+        	inventory.setQuantity(inventory.getQuantity() - amount);
+        	dbConnection.getWarehouseDB(warehouseName).setValue(inventory);
+        }
+    }
+    
+    public void transferPartsTo(String fromWarehouseName, File transferFile) throws Exception {
+		InventoryFactory factory = new InventoryFactory();
+    	
+    	try (BufferedReader reader = new BufferedReader(new FileReader(transferFile))) {
+    		String line = reader.readLine();
+    		Database<Inventory> fromWarehouse = dbConnection.getWarehouseDB(fromWarehouseName);
+    		Database<Inventory> toWarehouse = dbConnection.getWarehouseDB(warehouseName);
+    		
+    		while((line = reader.readLine()) != null) {
+    			Inventory fileInventory = (Inventory) factory.create(line);
+    			Inventory fromInventory = fromWarehouse.getValue(fileInventory.getPrimaryKey());
+    			Inventory toInventory = toWarehouse.getValue(fileInventory.getPrimaryKey());
+    			if(fromInventory != null && fromInventory.getQuantity() >= fileInventory.getQuantity()) {
+    				fromInventory.setQuantity(fromInventory.getQuantity() - fileInventory.getQuantity());
+    				fromWarehouse.setValue(fromInventory);
+    				if(toInventory == null) {
+    					toWarehouse.addValue(fileInventory);
+    				}
+    				else {
+    					toInventory.setQuantity(toInventory.getQuantity() + fileInventory.getQuantity());
+    					toWarehouse.setValue(toInventory);
+    				}
+    			}
+    		}
+    	}
+    }
 }

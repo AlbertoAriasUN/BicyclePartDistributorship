@@ -1,58 +1,114 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.SalesAssociateController">
-    <children>
-      <DatePicker fx:id="datePicker" layoutX="381.0" layoutY="71.0" onAction="#pickDate" />
-      <TableView fx:id="dataBaseTable" layoutX="20.0" layoutY="120.0" onSort="#sortDataBaseTable" prefHeight="200.0" prefWidth="233.0">
-        <columns>
-            <TableColumn prefWidth="75.0" text="Part Number">
-                <cellValueFactory>
-                    <PropertyValueFactory property="partNumber" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="75.0" text="Part Name">
-                <cellValueFactory>
-                    <PropertyValueFactory property="partName" />
-                </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="75.0" text="Price">
-                <cellValueFactory>
-                    <PropertyValueFactory property="warehousePrice" />
-                </cellValueFactory>
-            </TableColumn>
-        </columns>
-      </TableView>
-      <TableView fx:id="saleTable" layoutX="352.0" layoutY="120.0" onSort="#sortSaleTable" prefHeight="200.0" prefWidth="233.0">
-         <columns>
-            <TableColumn prefWidth="75.0" text="Part Number">
-                <cellValueFactory>
-                    <PropertyValueFactory property="partNumber" />
-                </cellValueFactory>
-             </TableColumn>
-            <TableColumn prefWidth="75.0" text="Part Name">
-             <cellValueFactory>
-                 <PropertyValueFactory property="partName" />
-             </cellValueFactory>
-         </TableColumn>
-            <TableColumn prefWidth="75.0" text="Price">
-                <cellValueFactory>
-                    <PropertyValueFactory property="warehousePrice" />
-                </cellValueFactory>
-            </TableColumn>
-         </columns>
-      </TableView>
-      <Button fx:id="sellButton" layoutX="259.0" layoutY="153.0" mnemonicParsing="false" onAction="#sellThings" text="Add to Sales" />
-      <TextField fx:id="totalSold" layoutX="259.0" layoutY="207.0" prefHeight="26.0" prefWidth="82.0" promptText="Ammount" />
-      <Button fx:id="invoicePDF" layoutX="148.0" layoutY="334.0" mnemonicParsing="false" onAction="#generateInvoicePDF" text="Generate Invoice PDF" />
-      <Button fx:id="invoiceConsole" layoutX="311.0" layoutY="334.0" mnemonicParsing="false" onAction="#generateInvoiceConsole" text="Generate Invoice Console" />
-      <Button fx:id="chooseFile" layoutX="85.0" layoutY="71.0" mnemonicParsing="false" text="Update Sales Van" />
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="401.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.SalesAssociateController">
+   <children>
+      <TabPane prefHeight="401.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Transfer Parts">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="100.0" layoutY="316.0" mnemonicParsing="false" onAction="#transfer_loadParts" text="Transfer to Sales Van..." />
+                        <TableView fx:id="transfer_salesVanPartsTable" layoutX="100.0" layoutY="84.0" prefHeight="200.0" prefWidth="380.0">
+                          <columns>
+                            <TableColumn prefWidth="110.0" text="Part Number">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="partNumber" />
+                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="112.0" text="Part Name">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="partName" />
+                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="75.0" text="Price">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="price" />
+                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="82.0" text="Quantity">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="quantity" />
+                              </cellValueFactory>
+                            </TableColumn>
+                          </columns>
+                        </TableView>
+                        <Button layoutX="290.0" layoutY="316.0" mnemonicParsing="false" onAction="#transfer_emptyVan" text="Empty Van to Warehouse" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Generate Invoice">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="invoice_salesVanPartsTable" layoutX="-6.0" layoutY="73.0" prefHeight="200.0" prefWidth="273.0">
+                           <columns>
+                              <TableColumn prefWidth="91.0" text="Part Number">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="partName" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="91.0" text="Price">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="price" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="91" text="Quantity">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="quantity" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                           </columns>
+                        </TableView>
+                        <TableView fx:id="invoice_soldPartsTable" layoutX="328.0" layoutY="73.0" prefHeight="200.0" prefWidth="272.0">
+                           <columns>
+                              <TableColumn prefWidth="91.0" text="Part Number">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="partName" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="91.0" text="Price">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="price" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                              <TableColumn prefWidth="91" text="Quantity">
+                                 <cellValueFactory>
+                                    <PropertyValueFactory property="quantity" />
+                                 </cellValueFactory>
+                              </TableColumn>
+                           </columns>
+                        </TableView>
+                        <Button layoutX="286.0" layoutY="102.0" mnemonicParsing="false" onAction="#invoice_moveToSoldTable" text="&gt;" />
+                        <Button layoutX="286.0" layoutY="211.0" mnemonicParsing="false" onAction="#invoice_moveToSalesVanTable" text="&lt;" />
+                        <Button layoutX="235.0" layoutY="306.0" mnemonicParsing="false" onAction="#invoice_generateInvoice" text="Generate Invoice" />
+                        <Label fx:id="invoice_totalSalesLabel" layoutX="245.0" layoutY="28.0" text="Total Sales: $x">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="invoice_moveAmountField" layoutX="278.0" layoutY="158.0" prefHeight="26.0" prefWidth="45.0" promptText="Amt">
+                           <font>
+                              <Font size="12.0" />
+                           </font>
+                        </TextField>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </children>
 </AnchorPane>

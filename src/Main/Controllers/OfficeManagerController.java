@@ -54,7 +54,7 @@ public class OfficeManagerController extends FXMLController implements Initializ
         selections.add(">");
         selections.add("=");
         examine_symbolDropdown.getItems().setAll(selections);
-        examine_symbolDropdown.setValue(selections.get(0));
+        examine_symbolDropdown.getSelectionModel().selectFirst();
 
         order_populateTable();
         order_requestColumn.setCellFactory(TextFieldTableCell.<PartOrder, Integer>forTableColumn(new IntegerStringConverter()));

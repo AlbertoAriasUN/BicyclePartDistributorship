@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.OfficeManagerController">
+<AnchorPane id="AnchorPane" prefHeight="401.0" prefWidth="535.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.OfficeManagerController">
    <children>
       <TabPane prefHeight="401.0" prefWidth="535.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
@@ -25,15 +25,15 @@
                      <children>
                         <Pane prefHeight="372.0" prefWidth="524.0">
                            <children>
-                              <TextArea fx:id="invoice_textArea" layoutX="4.0" layoutY="232.0" prefHeight="114.0" prefWidth="517.0" />
-                              <Label layoutX="14.0" layoutY="57.0" text="Sales Associate Name: " />
-                              <Label layoutX="13.0" layoutY="100.0" text="Start Date:" />
-                              <Label layoutX="14.0" layoutY="134.0" text="End Date: " />
-                              <TextField fx:id="invoice_salesAssociateField" layoutX="161.0" layoutY="53.0" promptText="Associate Name" />
+                              <TextArea fx:id="invoice_textArea" layoutX="4.0" layoutY="232.0" prefHeight="114.0" prefWidth="527.0" />
+                              <Label layoutX="14.0" layoutY="58.0" text="Sales Associate" />
+                              <Label layoutX="13.0" layoutY="100.0" text="Start Date" />
+                              <Label layoutX="14.0" layoutY="134.0" text="End Date" />
                               <DatePicker fx:id="invoice_startDatePicker" layoutX="161.0" layoutY="95.0" prefHeight="27.0" prefWidth="184.0" promptText="Date" />
                               <DatePicker fx:id="invoice_endDatePicker" layoutX="161.0" layoutY="129.0" prefHeight="27.0" prefWidth="184.0" promptText="Date" />
-                              <Button layoutX="362.0" layoutY="98.0" mnemonicParsing="false" onAction="#invoice_generateTextInvoice" prefHeight="23.0" prefWidth="148.0" text="Generate to text area" />
-                              <Button layoutX="362.0" layoutY="129.0" mnemonicParsing="false" onAction="#invoice_generatePDFInvoice" prefHeight="27.0" prefWidth="148.0" text="Generate to PDF" />
+                              <Button layoutX="362.0" layoutY="98.0" mnemonicParsing="false" onAction="#invoice_generateTextInvoice" prefHeight="23.0" prefWidth="148.0" text="Save text invoice" />
+                              <Button layoutX="362.0" layoutY="129.0" mnemonicParsing="false" onAction="#invoice_generatePDFInvoice" prefHeight="27.0" prefWidth="148.0" text="Save PDF invoice" />
+                              <ComboBox fx:id="invoice_salesAssociateDropdown" layoutX="161.0" layoutY="53.0" prefWidth="150.0" />
                            </children>
                         </Pane>
                      </children>
@@ -47,7 +47,7 @@
                         <TextField fx:id="examine_partNameField" layoutX="268.0" layoutY="56.0" promptText="Part Name" />
                         <Label layoutX="23.0" layoutY="61.0" text="Display part by name:" />
                         <Button layoutX="442.0" layoutY="104.0" mnemonicParsing="false" onAction="#examine_displayPartsByQuantity" text="Display" />
-                        <ComboBox fx:id="examine_symbolDropdown" layoutX="203.0" layoutY="104.0" prefHeight="27.0" prefWidth="52.0" />
+                        <ComboBox fx:id="examine_symbolDropdown" layoutX="196.0" layoutY="104.0" prefHeight="27.0" prefWidth="58.0" />
                         <TextField fx:id="examine_quantityField" layoutX="268.0" layoutY="105.0" promptText="Enter a Quantity" />
                         <Label layoutX="23.0" layoutY="109.0" text="Display parts by quantity" />
                         <Button layoutX="442.0" layoutY="56.0" mnemonicParsing="false" onAction="#examine_displayPartByName" text="Display" />

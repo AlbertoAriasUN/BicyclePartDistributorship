@@ -1,6 +1,7 @@
 package BicyclePartDistributorshipAPI.Controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 
 import BicyclePartDistributorshipAPI.Models.User;
@@ -40,24 +41,35 @@ public class UserController {
 
     public void registerUser(String firstName, String lastName, String username, String password, String email, UserType userType) throws IOException {
         User user = new User();
-        user.setFirstname(firstName);
-	user.setLastname(lastName);
-	user.setUsername(username);
-	user.setEmail(email);
-	user.setUserType(userType);
-
-	//Generate a salt and hash the password
-	byte[] salt = Security.generateSalt();
-	byte[] hash = Security.hashPassword(password.toCharArray(), salt);
-
-	//Encode results in base64
-	String base64EncodedSalt = Base64.getEncoder().encodeToString(salt);
-	String base64EncodedHash = Base64.getEncoder().encodeToString(hash);
-
-	//Store Base64 encoded results
-	user.setPasswordHash(base64EncodedHash);
-	user.setPasswordSalt(base64EncodedSalt);
-
-	dbConnection.getUserDB().addValue(user);
+        user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setUsername(username);
+		user.setEmail(email);
+		user.setUserType(userType);
+	
+		//Generate a salt and hash the password
+		byte[] salt = Security.generateSalt();
+		byte[] hash = Security.hashPassword(password.toCharArray(), salt);
+	
+		//Encode results in base64
+		String base64EncodedSalt = Base64.getEncoder().encodeToString(salt);
+		String base64EncodedHash = Base64.getEncoder().encodeToString(hash);
+	
+		//Store Base64 encoded results
+		user.setPasswordHash(base64EncodedHash);
+		user.setPasswordSalt(base64EncodedSalt);
+	
+		dbConnection.getUserDB().addValue(user);
+    }
+    
+    public ArrayList<User> getSalesAssociates() throws Exception {
+    	ArrayList<User> associates = new ArrayList<>();
+    	ArrayList<User> users = dbConnection.getUserDB().getValuesList();
+    	for(User user : users) {
+    		if(user.getUserType().equals(UserType.SALES_ASSOCIATE)) {
+    			associates.add(user);
+    		}
+    	}
+    	return associates;
     }
 }

@@ -6,8 +6,13 @@
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
+
 
 <AnchorPane prefHeight="350.0" prefWidth="467.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.SysAdminController">
    <children>
@@ -34,6 +39,47 @@
                   </AnchorPane>
             </content>
           </Tab>
+            <Tab text="User Mangement">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="userManagementTable" layoutX="20.0" layoutY="59.0" prefHeight="200.0" prefWidth="309.0">
+                          <columns>
+                            <TableColumn prefWidth="101.0" text="Username" />
+                            <TableColumn prefWidth="96.0" text="Email" />
+                            <TableColumn prefWidth="111.0" text="User Type" />
+                          </columns>
+                        </TableView>
+                        <Button layoutX="340.0" layoutY="68.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Sales Van Assignment">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="salesVanAssignmentTable" layoutX="99.0" layoutY="66.0" prefHeight="200.0" prefWidth="270.0" editable="true">
+                          <columns>
+                            <TableColumn prefWidth="133.0" text="Sales Associate">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="salesAssociate" />
+                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn fx:id="assignment_salesVanColumn" prefWidth="136.0" text="Sales Van" editable="true">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="salesVan" />
+                              </cellValueFactory>
+                              <cellFactory>
+                                <TextFieldTableCell fx:factory="forTableColumn" />
+                              </cellFactory>
+                            </TableColumn>
+                          </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </children>

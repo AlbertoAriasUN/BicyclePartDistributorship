@@ -32,8 +32,10 @@ public class LoginController {
 			System.out.println("Username/Password incorrect");
 		}
 		
+		APICaller.setLoggedInUser(user.getUsername());
+		
 		try {
-			switch(user.getType()) {
+			switch(user.getUserType()) {
 				case SYSADMIN:
 					Main.Main.setStage(Main.Main.SYSADMIN_STAGE_URL);
 					break;

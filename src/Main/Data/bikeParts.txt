@@ -1,5 +1,6 @@
+mensJacketMedium,1234567910,120.0,95.0,false,0
+womensJacketMedium,1234567911,120.0,95.0,false,100
+zarminComputer,1234567908,543.21,480.0,false,3
+womensBibsMedium,1234567909,110.0,99.0,false,20
 grr,1234567907,4567.89,3456.78,false,0
-zarminComputer,1234567908,543.21,480.00,false,3
-womensBibsMedium,1234567909,110.00,99.00,false,20
-womensJacketMedium,1234567911,120.00,95.00,false,100
-mensJacketMedium,1234567910,120.00,95.00,false,0
+bicycle,12345,899.0,899.0,false,15

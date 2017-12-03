@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="541.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Main.Controllers.WarehouseManagerController">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="541.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab text="Update Warehouse">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="31.0" layoutY="36.0" text="Upload Warehouse Update File" />
-                        <Button layoutX="259.0" layoutY="31.0" mnemonicParsing="false" text="Upload..." />
-                        <TextArea layoutX="32.0" layoutY="101.0" prefHeight="200.0" prefWidth="534.0" />
-                     </children>
-                  </AnchorPane>
+              	<children>
+				  <TextField id="partNumberField" fx:id="update_partNumberField" layoutX="176.0" layoutY="45.0" />
+				  <Label layoutX="24.0" layoutY="50.0" text="Part Number" />
+				  <Label layoutX="24.0" layoutY="90.0" text="Part Name" />
+				  <Label layoutX="24.0" layoutY="130.0" text="List Price" />
+			      <Label layoutX="24.0" layoutY="170.0" text="Sale Price" />
+			      <Label layoutX="24.0" layoutY="210.0" text="On Sale?" />
+				  <Label layoutX="24.0" layoutY="250.0" text="Quantity" />
+				  <TextField id="partNameField" fx:id="update_partNameField" layoutX="176.0" layoutY="85.0" />
+				  <TextField id="listPriceField" fx:id="update_partListPriceField" layoutX="176.0" layoutY="125.0" />
+				  <TextField id="salePriceField" fx:id="update_partSalePriceField" layoutX="176.0" layoutY="165.0" />
+				  <TextField id="partQuantityField" fx:id="update_partQuantityField" layoutX="176.0" layoutY="245.0" />
+				  <CheckBox id="onSaleCheckbox" fx:id="update_partOnSaleCheckbox" layoutX="176.0" layoutY="209.0" mnemonicParsing="false" />
+				  <Button layoutX="14.0" layoutY="328.0" mnemonicParsing="false" onAction="#update_addFromForm" text="Add Part Listing" />
+				  <Button layoutX="188.0" layoutY="328.0" mnemonicParsing="false" onAction="#update_addFromFile" text="Add From File..." />
+                        <Label layoutX="24.0" layoutY="290.0" text="Alert Threhsold" />
+                        <TextField fx:id="update_alertThresholdField" layoutX="176.0" layoutY="285.0" />
+			    </children>
+              </AnchorPane>
             </content>
           </Tab>
           <Tab text="Generate Paycheck">
@@ -36,14 +53,59 @@
                         <DatePicker layoutX="246.0" layoutY="122.0" />
                         <Label layoutX="57.0" layoutY="127.0" text="To Date" />
                         <Button layoutX="57.0" layoutY="158.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" text="Generate" />
-                        <TextArea layoutX="30.0" layoutY="207.0" prefHeight="152.0" prefWidth="557.0" />
+                        <TextArea layoutY="201.0" prefHeight="166.0" prefWidth="541.0" />
                      </children>
                   </AnchorPane>
             </content>
           </Tab>
             <Tab text="Examine Part">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="565.0">
+                     <children>
+                        <TextField fx:id="examine_partNameField" layoutX="268.0" layoutY="56.0" promptText="Part Name" />
+                        <Label layoutX="23.0" layoutY="61.0" text="Display part by name:" />
+                        <Button layoutX="442.0" layoutY="104.0" mnemonicParsing="false" onAction="#examine_displayPartsByQuantity" text="Display" />
+                        <ComboBox fx:id="examine_symbolDropdown" layoutX="196.0" layoutY="104.0" prefHeight="27.0" prefWidth="58.0" />
+                        <TextField fx:id="examine_quantityField" layoutX="268.0" layoutY="105.0" promptText="Enter a Quantity" />
+                        <Label layoutX="23.0" layoutY="109.0" text="Display parts by quantity" />
+                        <Button layoutX="442.0" layoutY="56.0" mnemonicParsing="false" onAction="#examine_displayPartByName" text="Display" />
+                        <!--  <TextArea fx:id="examine_displayPartArea" layoutX="30.0" layoutY="145.0" prefHeight="200.0" prefWidth="455.0" />  -->
+                        <TableView fx:id="examine_partTable" editable="true" layoutY="145.0" prefHeight="200.0" prefWidth="541.0">
+                            <columns>
+                                <TableColumn prefWidth="105.0" text="Part Number">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="partNumber" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="112.0" text="Part Name">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="partName" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="78.0" text="List Price">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="listPrice" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="83.0" text="Sale Price">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="salePrice" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="75.0" text="On Sale">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="isOnSale" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                                <TableColumn prefWidth="87.0" text="Quantity">
+                                    <cellValueFactory>
+                                        <PropertyValueFactory property="quantity" />
+                                    </cellValueFactory>
+                                </TableColumn>
+                            </columns>
+                        </TableView>
+                     </children>
+                  </AnchorPane>                   
               </content>
             </Tab>
         </tabs>
