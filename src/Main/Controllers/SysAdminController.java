@@ -59,6 +59,12 @@ public class SysAdminController extends FXMLController {
     	assignment_populateTable();
     	assignment_salesVanColumn.setCellFactory(TextFieldTableCell.forTableColumn());
     	assignment_salesVanColumn.setOnEditCommit(event -> assignment_salesVanColumnChanged(event));
+    	
+    	try {
+			management_populateTable();
+		} catch (IOException e) {
+			showErrorDialog("Error: " + e.getMessage());
+		}
     }
     
     @FXML
@@ -87,13 +93,33 @@ public class SysAdminController extends FXMLController {
     			break;
     	}
     	APICaller.getUserController().registerUser(firstName, lastName, username, password, email, userType);
+    	showInfoDialog("User registered");
     }
     
     @FXML
     void deleteUser(ActionEvent event) {
-
+    	UserManagementTableRow user = userManagementTable.getSelectionModel().getSelectedItem();
+    	try {
+			APICaller.getUserController().deleteUser(user.getUsername());
+			management_populateTable();
+		} catch (IOException e) {
+			showErrorDialog("Error: " + e.getMessage());
+		}
     }
 
+    private void management_populateTable() throws IOException {
+    	ArrayList<User> users = APICaller.getUserController().getUsers();
+    	ArrayList<UserManagementTableRow> rows = new ArrayList<>();
+    	for(User user : users) {
+    		UserManagementTableRow row = new UserManagementTableRow();
+    		row.setUsername(user.getUsername());
+    		row.setEmail(user.getEmail());
+    		row.setUserType(user.getUserType());
+    		rows.add(row);
+    	}
+    	userManagementTable.getItems().setAll(rows);
+    }
+    
     private void assignment_populateTable() {
     	ArrayList<SalesVanAssignmentTableRow> rows = new ArrayList<>();
     	try {

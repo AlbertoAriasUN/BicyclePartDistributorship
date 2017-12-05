@@ -31,12 +31,12 @@ public class UserController {
         }
 
         byte[] salt = Base64.getDecoder().decode(user.getPasswordSalt());
-	String attemptedPasswordHash = Base64.getEncoder().encodeToString(Security.hashPassword(password.toCharArray(), salt));
-
-	if(attemptedPasswordHash.equals(user.getPasswordHash())) {
-            return user;
-	}
-	else return null;
+		String attemptedPasswordHash = Base64.getEncoder().encodeToString(Security.hashPassword(password.toCharArray(), salt));
+	
+		if(attemptedPasswordHash.equals(user.getPasswordHash())) {
+	            return user;
+		}
+		else return null;
     }
 
     public void registerUser(String firstName, String lastName, String username, String password, String email, UserType userType) throws IOException {
@@ -62,6 +62,10 @@ public class UserController {
 		dbConnection.getUserDB().addValue(user);
     }
     
+    public ArrayList<User> getUsers() throws IOException {
+    	return dbConnection.getUserDB().getValuesList();
+    }
+    
     public ArrayList<User> getSalesAssociates() throws Exception {
     	ArrayList<User> associates = new ArrayList<>();
     	ArrayList<User> users = dbConnection.getUserDB().getValuesList();
@@ -71,5 +75,9 @@ public class UserController {
     		}
     	}
     	return associates;
+    }
+    
+    public void deleteUser(String username) throws IOException {
+    	dbConnection.getUserDB().remove(username);
     }
 }

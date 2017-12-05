@@ -16,6 +16,12 @@ public class SalesInvoiceTableRow {
 		this.price = price;
 		this.quantity = quantity;
 	}
+	
+	public SalesInvoiceTableRow(SalesInvoiceTableRow row) {
+		this.partName = row.partName;
+		this.price = row.price;
+		this.quantity = row.quantity;
+	}
 
 	public String getPartName() {
 		return partName;

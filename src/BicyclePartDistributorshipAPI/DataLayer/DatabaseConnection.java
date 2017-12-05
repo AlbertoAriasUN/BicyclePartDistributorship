@@ -9,8 +9,6 @@ import BicyclePartDistributorshipAPI.Models.Inventory;
 import BicyclePartDistributorshipAPI.Models.InventoryFactory;
 import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecord;
 import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecordFactory;
-import BicyclePartDistributorshipAPI.Models.SaleRecord;
-import BicyclePartDistributorshipAPI.Models.SaleRecordFactory;
 import BicyclePartDistributorshipAPI.Models.SalesVan;
 import BicyclePartDistributorshipAPI.Models.SalesVanFactory;
 import BicyclePartDistributorshipAPI.Models.User;
@@ -27,7 +25,6 @@ public class DatabaseConnection {
 	private final String INVOICE_LIST_DB_FILENAME = "Data/invoices.txt";
 	private final String BICYCLE_PARTS_DB_FILENAME = "Data/bikeParts.txt";
 	private final String USER_DB_FILENAME = "Data/users.txt";
-	private final String SALES_DB_FILENAME = "Data/sales.txt";
 	private final String SALES_VAN_DB_FILENAME = "Data/salesVans.txt";
 
 	public Database<DatabaseListModel> getWarehouseListDB() throws IOException {
@@ -58,7 +55,9 @@ public class DatabaseConnection {
 																	 .stream().map(s -> s.getDatabaseFilePath())
 																	 .collect(Collectors.toList());
 		for(String filename : INVOICE_DB_FILENAMES) {
-			invoices.put(filename, new Database<>(filename, new InvoiceSaleRecordFactory()));
+			String[] values = filename.split("/");
+			String invoiceName = values[values.length - 1].split("\\.")[0];
+			invoices.put(invoiceName, new Database<>(filename, new InvoiceSaleRecordFactory()));
 		}
 		return invoices;	
 	}
@@ -78,10 +77,7 @@ public class DatabaseConnection {
 	public Database<User> getUserDB() throws IOException {
 		return new Database<>(USER_DB_FILENAME, new UserFactory());
 	}
-	
-	public Database<SaleRecord> getSaleRecordsDB() throws IOException {
-		return new Database<>(SALES_DB_FILENAME, new SaleRecordFactory());
-	}
+
 	
 	public Database<SalesVan> getSalesVanDB() throws IOException {
 		return new Database<>(SALES_VAN_DB_FILENAME, new SalesVanFactory());

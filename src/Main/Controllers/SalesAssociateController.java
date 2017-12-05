@@ -4,21 +4,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.ResourceBundle;
-
-import BicyclePartDistributorshipAPI.Models.Inventory;
-import Main.APICaller;
-import Main.Models.SalesInvoiceTableRow;
-import Main.Models.SalesVanInventoryTableRow;
-import Tools.BicyclePartTuple;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import BicyclePartDistributorshipAPI.Models.Inventory;
+import BicyclePartDistributorshipAPI.Models.InvoiceSaleRecord;
+import FileGeneration.InvoiceGenerator;
+import FileGeneration.InvoiceTXTGenerator;
+import Main.APICaller;
+import Main.Models.SalesInvoiceTableRow;
+import Main.Models.SalesVanInventoryTableRow;
+import Tools.BicyclePartTuple;
 
 public class SalesAssociateController extends FXMLController {
 
@@ -42,6 +45,9 @@ public class SalesAssociateController extends FXMLController {
 
     @FXML
     private TextField invoice_moveAmountField;
+    
+    @FXML
+    private TextField invoice_employeeName;
 
 
     @FXML
@@ -52,19 +58,65 @@ public class SalesAssociateController extends FXMLController {
     
     @FXML
     private void invoice_generateInvoice(ActionEvent event) {
-
+    	ArrayList<SalesInvoiceTableRow> rows = new ArrayList<>(invoice_soldPartsTable.getItems());
+    	String employeeName = invoice_employeeName.getText();
+    	SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
+    	String invoiceName = APICaller.getLoggedInUser() + "-" + format.format(new Date());
+    	
+    	//Create invoice and add values from rows
+    	try {
+        	String salesVanName = APICaller.getSalesVanController().findForUser(APICaller.getLoggedInUser()).getName();
+			APICaller.getInvoiceListController().addInvoice(invoiceName);
+			
+			for(SalesInvoiceTableRow row : rows) {
+				long partNumber = APICaller.getPartController().getPart(row.getPartName()).getPartNumber();
+				InvoiceSaleRecord record = new InvoiceSaleRecord();
+				record.setPartNumber(partNumber);
+				record.setQuantity(row.getQuantity());
+				record.setSalesAssociate(APICaller.getLoggedInUser());
+				record.setDatetime(new Date());
+				APICaller.getInvoiceController(invoiceName).addSaleRecord(record);
+				APICaller.getWarehouseController(salesVanName).removeInventory(partNumber, row.getQuantity());
+			}
+			
+			InvoiceGenerator generator = new InvoiceGenerator(new InvoiceTXTGenerator());
+			generator.generateInvoice(invoiceName, employeeName);
+			invoice_soldPartsTable.getItems().setAll(new ArrayList<>());
+			
+		} catch (Exception e) {
+			showErrorDialog("Error: " + e.getMessage());
+			e.printStackTrace();
+		}
     }
 
     @FXML
     private void invoice_moveToSalesVanTable(ActionEvent event) {
-
+    	SalesInvoiceTableRow selectedRow = invoice_soldPartsTable.getSelectionModel().getSelectedItem();
+    	int quantity = Integer.parseInt(invoice_moveAmountField.getText());
+    	ArrayList<SalesInvoiceTableRow> vanRows = new ArrayList<>(invoice_salesVanPartsTable.getItems());
+    	
+    	quantity = (quantity > selectedRow.getQuantity() ? selectedRow.getQuantity() : quantity);
+    	
+    	for(int i = 0; i < vanRows.size(); i++) {
+        	if(vanRows.get(i).equals(selectedRow)) {
+        		vanRows.get(i).setQuantity(vanRows.get(i).getQuantity() + quantity);
+        	}
+        }
+    	invoice_salesVanPartsTable.getItems().setAll(vanRows);
+    	
+    	int index = invoice_salesVanPartsTable.getSelectionModel().getSelectedIndex();
+    	ArrayList<SalesInvoiceTableRow> rows = new ArrayList<>(invoice_soldPartsTable.getItems());
+    	rows.get(index).setQuantity(rows.get(index).getQuantity() - quantity);
+    	invoice_soldPartsTable.getItems().setAll(rows);
     }
 
     @FXML
     private void invoice_moveToSoldTable(ActionEvent event) {
     	SalesInvoiceTableRow selectedRow = invoice_salesVanPartsTable.getSelectionModel().getSelectedItem();
     	int quantity = Integer.parseInt(invoice_moveAmountField.getText());
-    	ObservableList<SalesInvoiceTableRow> soldRows = invoice_soldPartsTable.getItems();
+    	ArrayList<SalesInvoiceTableRow> soldRows = new ArrayList<>(invoice_soldPartsTable.getItems());
+    	
+    	quantity = (quantity > selectedRow.getQuantity() ? selectedRow.getQuantity() : quantity);
     	
     	if(soldRows.contains(selectedRow)) {
     		for(int i = 0; i < soldRows.size(); i++) {
@@ -74,13 +126,17 @@ public class SalesAssociateController extends FXMLController {
         	}
     	}
     	else {
-    		SalesInvoiceTableRow row = selectedRow;
+    		SalesInvoiceTableRow row = new SalesInvoiceTableRow(selectedRow);
     		row.setQuantity(quantity);
     		soldRows.add(row);
     	}
     	
-    	invoice_soldPartsTable.setItems(soldRows);
-    	selectedRow.setQuantity(selectedRow.getQuantity() - quantity);
+    	invoice_soldPartsTable.getItems().setAll(soldRows);
+    	
+    	int index = invoice_salesVanPartsTable.getSelectionModel().getSelectedIndex();
+    	ArrayList<SalesInvoiceTableRow> rows = new ArrayList<>(invoice_salesVanPartsTable.getItems());
+    	rows.get(index).setQuantity(rows.get(index).getQuantity() - quantity);
+    	invoice_salesVanPartsTable.getItems().setAll(rows);
     }
 
     @FXML
@@ -99,6 +155,7 @@ public class SalesAssociateController extends FXMLController {
 		}
     	
     	transfer_populateTable();
+    	invoice_populateTable();
     	
     }
 
@@ -113,6 +170,7 @@ public class SalesAssociateController extends FXMLController {
 			showErrorDialog("Error: " + e.getMessage());
 		}
     	transfer_populateTable();
+    	invoice_populateTable();
     }
     
     private void transfer_populateTable(){
@@ -139,6 +197,7 @@ public class SalesAssociateController extends FXMLController {
     	try {
         	String salesVanName = APICaller.getSalesVanController().findForUser(APICaller.getLoggedInUser()).getName();
         	ArrayList<BicyclePartTuple> tuples = APICaller.getWarehouseController(salesVanName).getPartTuples();
+        	
         	for(BicyclePartTuple tuple : tuples) {
         		String partName = tuple.getBicyclePart().getPartName();
         		double price = tuple.getBicyclePart().getPrice();

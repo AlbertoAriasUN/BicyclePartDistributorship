@@ -45,9 +45,21 @@
                      <children>
                         <TableView fx:id="userManagementTable" layoutX="20.0" layoutY="59.0" prefHeight="200.0" prefWidth="309.0">
                           <columns>
-                            <TableColumn prefWidth="101.0" text="Username" />
-                            <TableColumn prefWidth="96.0" text="Email" />
-                            <TableColumn prefWidth="111.0" text="User Type" />
+                            <TableColumn prefWidth="101.0" text="Username">
+	                            <cellValueFactory>
+	                                <PropertyValueFactory property="username" />
+	                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="96.0" text="Email">
+                            	<cellValueFactory>
+                                <PropertyValueFactory property="email" />
+                              </cellValueFactory>
+                            </TableColumn>
+                            <TableColumn prefWidth="111.0" text="User Type">
+                              <cellValueFactory>
+                                <PropertyValueFactory property="userType" />
+                              </cellValueFactory>
+                            </TableColumn>
                           </columns>
                         </TableView>
                         <Button layoutX="340.0" layoutY="68.0" mnemonicParsing="false" onAction="#deleteUser" text="Delete" />

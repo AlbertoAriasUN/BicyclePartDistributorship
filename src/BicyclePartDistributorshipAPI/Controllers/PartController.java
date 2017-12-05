@@ -7,7 +7,6 @@ import BicyclePartDistributorshipAPI.Models.BicyclePartFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 
 /**
  * Controller for part listings
@@ -53,8 +52,7 @@ public class PartController {
      * @throws IOException Exception in reading file
      */
     public BicyclePart getPart(String partName) throws Exception {
-    	Map<Object, BicyclePart> parts = dbConnection.getBicyclePartsDB().getValues();
-        return parts.get(partName);
+    	return dbConnection.getBicyclePartsDB().getValueEquals("partName", partName);
     }
 
     /**

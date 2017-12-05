@@ -1,4 +1,4 @@
 John,Smith,jsmith,xXV+kqgxETAAhmT/6CyKVkd1eimvcRr35ZIdPAUyoFCCzOG52Jb8bbbYys+hhzzN3FXnKjlxO07xIvYgS0shKA==,oNG80y+/vJc=,jsmith@mail.umw.edu,OFFICE_MANAGER
 Matthew,Aneiro,maneiro,3DTAuQrrAA1lqVip8jAqxU53RyU9ZWZCHkqOPgcp7WUrubj0OE2NHRTBJtpBeHn7HecIbPM1ppfHlIRb1v+kPg==,kRBwIzowYLE=,maneiro@mail.umw.edu,SYSADMIN
 Jane,Doe,jdoe,3B1Za4ICGiNdFxQzWeFKo/LR9ViNZXQ1Kz5IHd1/SZ5NCVY+acAlfaj17I7GQPIeQyl+la02Eg5TmjZ6JipL7g==,ePYW4YkMyN4=,jdoe@mail.umw.edu,SALES_ASSOCIATE
-Han,Solo,hsolo,dRS5Z0IfM3UmxskGBCSkvgpmBaO/FLNWq2AM6Q0frvBcJuYcjZhZYRwR+Lr0kgvQvTOb99FRz5rjWZK1CwM7+g==,6TUN0Sddd0I=,hsolo@mail.umw.edu,WAREHOUSE_MANAGER
+Han,Solo,hsolo,6m1XulOHNOOZQEgTsceACuyq8ZZk6KQF3UyjUMlFXf4B0D7BSk/6lqFZM41zNlD320fJVCKfCmHEhT2Gdqd2LA==,ilCpixDSw/8=,hsolo@mail.umw.edu,WAREHOUSE_MANAGER

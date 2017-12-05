@@ -1,0 +1,12 @@
+Data/Invoices/jdoe-2017-12-05_10-12-09.txt
+Data/Invoices/jdoe-2017-12-05_12-14-19.txt
+Data/Invoices/jdoe-2017-12-04_21-32-09.txt
+Data/Invoices/jdoe-2017-12-05_10-08-08.txt
+Data/Invoices/jdoe-2017-12-05_11-15-42.txt
+Data/Invoices/jdoe-2017-12-03_14-03-06.txt
+Data/Invoices/jdoe-2017-12-04_21-27-57.txt
+Data/Invoices/jdoe-2017-12-03_13-59-54.txt
+Data/Invoices/jdoe-2017-12-04_21-33-51.txt
+Data/Invoices/jdoe-2017-12-05_11-13-28.txt
+Data/Invoices/jdoe-2017-12-03_14-02-10.txt
+Data/Invoices/jdoe-2017-12-04_21-29-46.txt

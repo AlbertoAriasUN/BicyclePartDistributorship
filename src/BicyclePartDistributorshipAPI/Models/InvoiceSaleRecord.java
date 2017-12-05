@@ -5,6 +5,8 @@
  */
 package BicyclePartDistributorshipAPI.Models;
 
+import java.util.Date;
+
 import Database.IDatabaseModel;
 
 /**
@@ -13,27 +15,65 @@ import Database.IDatabaseModel;
  */
 public class InvoiceSaleRecord implements IDatabaseModel{
 	
-	private String saleId;
+	private long partNumber;
+	private int quantity;
+	private String salesAssociate;
+	private Date datetime;
 	
-	public InvoiceSaleRecord(String saleId) {
-		this.saleId = saleId;
+	public InvoiceSaleRecord() {
+		this.partNumber = 0;
+		this.quantity = 0;
+		this.salesAssociate = "";
+		this.datetime = null;
 	}
 	
-	public String getSaleId() {
-		return saleId;
-	}
-	
-	public void setSaleId(String saleId) {
-		this.saleId = saleId;
+	public InvoiceSaleRecord(long partNumber, int quantity, String salesAssociate, Date datetime) {
+		this.partNumber = partNumber;
+		this.quantity = quantity;
+		this.salesAssociate = salesAssociate;
+		this.datetime = datetime;
 	}
 
-	@Override
-	public String toString() {
-		return saleId;
+	public long getPartNumber() {
+		return partNumber;
+	}
+
+	public void setPartNumber(long partNumber) {
+		this.partNumber = partNumber;
+	}
+
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public String getSalesAssociate() {
+		return salesAssociate;
+	}
+
+	public void setSalesAssociate(String salesAssociate) {
+		this.salesAssociate = salesAssociate;
+	}
+
+	public Date getDatetime() {
+		return datetime;
+	}
+
+	public void setDatetime(Date datetime) {
+		this.datetime = datetime;
 	}
 	
 	@Override
 	public Object getPrimaryKey() {
-		return saleId;
+		return partNumber;
 	}
+	
+	@Override
+	public String toString() {
+		return partNumber + "," + quantity + "," + salesAssociate + "," + datetime.getTime();
+	}
+	
 }

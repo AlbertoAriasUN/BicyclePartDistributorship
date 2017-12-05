@@ -55,7 +55,7 @@
                      <children>
                         <TableView fx:id="invoice_salesVanPartsTable" layoutX="-6.0" layoutY="73.0" prefHeight="200.0" prefWidth="273.0">
                            <columns>
-                              <TableColumn prefWidth="91.0" text="Part Number">
+                              <TableColumn prefWidth="91.0" text="Part Name">
                                  <cellValueFactory>
                                     <PropertyValueFactory property="partName" />
                                  </cellValueFactory>
@@ -74,7 +74,7 @@
                         </TableView>
                         <TableView fx:id="invoice_soldPartsTable" layoutX="328.0" layoutY="73.0" prefHeight="200.0" prefWidth="272.0">
                            <columns>
-                              <TableColumn prefWidth="91.0" text="Part Number">
+                              <TableColumn prefWidth="91.0" text="Part Name">
                                  <cellValueFactory>
                                     <PropertyValueFactory property="partName" />
                                  </cellValueFactory>
@@ -94,16 +94,13 @@
                         <Button layoutX="286.0" layoutY="102.0" mnemonicParsing="false" onAction="#invoice_moveToSoldTable" text="&gt;" />
                         <Button layoutX="286.0" layoutY="211.0" mnemonicParsing="false" onAction="#invoice_moveToSalesVanTable" text="&lt;" />
                         <Button layoutX="235.0" layoutY="306.0" mnemonicParsing="false" onAction="#invoice_generateInvoice" text="Generate Invoice" />
-                        <Label fx:id="invoice_totalSalesLabel" layoutX="245.0" layoutY="28.0" text="Total Sales: $x">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
                         <TextField fx:id="invoice_moveAmountField" layoutX="278.0" layoutY="158.0" prefHeight="26.0" prefWidth="45.0" promptText="Amt">
                            <font>
                               <Font size="12.0" />
                            </font>
                         </TextField>
+                        <Label layoutX="14.0" layoutY="14.0" text="Employee Name" />
+                        <TextField fx:id="invoice_employeeName" layoutX="14.0" layoutY="37.0" />
                      </children>
                   </AnchorPane>
             </content>

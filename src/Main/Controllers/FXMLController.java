@@ -1,9 +1,6 @@
 package Main.Controllers;
 
 import java.io.File;
-import java.io.IOException;
-
-import Main.APICaller;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;

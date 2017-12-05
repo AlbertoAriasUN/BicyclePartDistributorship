@@ -19,8 +19,8 @@ public class BicyclePartTuple {
 		return quantity;
 	}
         
-        @Override
-        public String toString(){
-            return bicyclePart.toString() + "," + quantity;
-        }
+    @Override
+    public String toString(){
+        return bicyclePart.toString() + "," + quantity;
+    }
 }

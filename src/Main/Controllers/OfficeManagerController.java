@@ -3,20 +3,24 @@ package Main.Controllers;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
 import BicyclePartDistributorshipAPI.Models.BicyclePart;
 import BicyclePartDistributorshipAPI.Models.Inventory;
+import BicyclePartDistributorshipAPI.Models.User;
+import FileGeneration.PaycheckGenerator;
+import FileGeneration.PaycheckTXTGenerator;
 import Main.APICaller;
 import Main.Models.ExaminePartTableRow;
 import Main.Models.PartOrder;
 import Tools.BicyclePartTuple;
+
 import java.io.IOException;
 import java.net.URL;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
@@ -26,7 +30,7 @@ public class OfficeManagerController extends FXMLController implements Initializ
     @FXML
     private TextArea invoice_textArea;
     @FXML
-    private TextField invoice_salesAssociateField;
+    private ComboBox<String> invoice_salesAssociateDropdown;
     @FXML
     private DatePicker invoice_startDatePicker;
     @FXML
@@ -56,6 +60,17 @@ public class OfficeManagerController extends FXMLController implements Initializ
         examine_symbolDropdown.getItems().setAll(selections);
         examine_symbolDropdown.getSelectionModel().selectFirst();
 
+        selections = new ArrayList<>();
+        try {
+			for(User associate : APICaller.getUserController().getSalesAssociates()) {
+				selections.add(associate.getUsername());
+			}
+			invoice_salesAssociateDropdown.getItems().setAll(selections);
+			invoice_salesAssociateDropdown.getSelectionModel().selectFirst();
+		} catch (Exception e) {
+			showErrorDialog("Error: Could not load associates.\n" + e.getMessage());
+		}
+        
         order_populateTable();
         order_requestColumn.setCellFactory(TextFieldTableCell.<PartOrder, Integer>forTableColumn(new IntegerStringConverter()));
         order_requestColumn.setOnEditCommit(event -> event.getRowValue().setRequestedQuantity(event.getNewValue()));
@@ -77,16 +92,15 @@ public class OfficeManagerController extends FXMLController implements Initializ
 
     @FXML
     private void invoice_generateTextInvoice(ActionEvent event) {
-        String salesName = invoice_salesAssociateField.getText();
-        LocalDate start = invoice_startDatePicker.getValue();
-        LocalDate end = invoice_endDatePicker.getValue();
-    }
-
-    @FXML
-    private void invoice_generatePDFInvoice(ActionEvent event) {
-        String salesName = invoice_salesAssociateField.getText();
-        LocalDate start = invoice_startDatePicker.getValue();
-        LocalDate end = invoice_endDatePicker.getValue();
+        String salesName = invoice_salesAssociateDropdown.getValue();
+        Instant start = invoice_startDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        Instant end = invoice_endDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        try {
+        	PaycheckGenerator generator = new PaycheckGenerator(new PaycheckTXTGenerator());
+        	generator.generatePaycheck(salesName, start, end);
+		} catch (IOException e) {
+			showErrorDialog("Error: " + e.getMessage());
+		}
     }
 
     @FXML

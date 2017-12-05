@@ -42,22 +42,6 @@
               </AnchorPane>
             </content>
           </Tab>
-          <Tab text="Generate Paycheck">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <Label layoutX="57.0" layoutY="41.0" text="Select Sales Associate" />
-                        <ComboBox layoutX="246.0" layoutY="36.0" prefWidth="150.0" />
-                        <Label layoutX="57.0" layoutY="85.0" text="From Date" />
-                        <DatePicker layoutX="246.0" layoutY="80.0" />
-                        <DatePicker layoutX="246.0" layoutY="122.0" />
-                        <Label layoutX="57.0" layoutY="127.0" text="To Date" />
-                        <Button layoutX="57.0" layoutY="158.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="102.0" text="Generate" />
-                        <TextArea layoutY="201.0" prefHeight="166.0" prefWidth="541.0" />
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
             <Tab text="Examine Part">
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="565.0">

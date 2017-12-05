@@ -1,7 +1,8 @@
 package Main;
 
+import BicyclePartDistributorshipAPI.Controllers.InvoiceController;
+import BicyclePartDistributorshipAPI.Controllers.InvoiceListController;
 import BicyclePartDistributorshipAPI.Controllers.PartController;
-import BicyclePartDistributorshipAPI.Controllers.SaleController;
 import BicyclePartDistributorshipAPI.Controllers.SalesVanController;
 import BicyclePartDistributorshipAPI.Controllers.UserController;
 import BicyclePartDistributorshipAPI.Controllers.WarehouseController;
@@ -66,13 +67,27 @@ public class APICaller {
         
         return controllers;
     }
-
-    public static UserController getUserController() throws IOException {
-    	return (new UserController());
+    
+    public static InvoiceListController getInvoiceListController() throws IOException {
+    	return (new InvoiceListController());
     }
     
-    public static SaleController getSaleController() throws IOException {
-    	return (new SaleController());
+    public static InvoiceController getInvoiceController(String name) throws IOException {
+    	return (new InvoiceController(name));
+    }
+
+    public static ArrayList<InvoiceController> getInvoiceControllerList() throws IOException {
+    	ArrayList<InvoiceController> controllers = new ArrayList<>();
+    	ArrayList<String> invoiceNames = getInvoiceListController().getInvoiceNames();
+    	for(String name : invoiceNames) {
+    		controllers.add(new InvoiceController(name));
+    	}
+    	return controllers;
+    	
+    }
+    
+    public static UserController getUserController() throws IOException {
+    	return (new UserController());
     }
     
     public static SalesVanController getSalesVanController() throws IOException {

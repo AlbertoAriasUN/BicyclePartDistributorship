@@ -35,10 +35,19 @@ public class Security {
 	    }
 	}
 
+	/**
+	 * Generates a salt
+	 * @return byte array containing salt
+	 */
 	public static byte[] generateSalt() {
 		return generateSalt(8);
 	}
 
+	/**
+	 * Generate a salt
+	 * @param numBytes size of salt
+	 * @return byte array containing salt
+	 */
 	public static byte[] generateSalt(int numBytes) {
 		final Random random = new SecureRandom();
 		byte[] salt = new byte[numBytes];
